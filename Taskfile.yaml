@@ -1,0 +1,167 @@
+# Taskfile.yaml - Task runner configuration
+# Install Task: https://taskfile.dev/installation/
+# Usage: task <task-name>
+
+version: "3"
+
+vars:
+  PYTHON: uv run python
+  UV: uv
+
+tasks:
+  # Development setup
+  install:
+    desc: Install project dependencies
+    cmds:
+      - "{{.UV}} sync"
+
+  install-dev:
+    desc: Install development dependencies
+    cmds:
+      - "{{.UV}} sync --all-extras"
+
+  init:
+    desc: Initialize project for development
+    cmds:
+      - task: install-dev
+      - "{{.PYTHON}} -m duty init_project"
+
+  # Code quality
+  format:
+    desc: Format code with ruff
+    cmds:
+      - "{{.PYTHON}} -m duty format"
+
+  lint:
+    desc: Run linting with ruff
+    cmds:
+      - "{{.PYTHON}} -m duty lint"
+
+  lint-fix:
+    desc: Run linting with ruff and fix issues
+    cmds:
+      - "{{.PYTHON}} -m duty lint_fix"
+
+  type-check:
+    desc: Run type checking with mypy
+    cmds:
+      - "{{.PYTHON}} -m duty type_check"
+
+  # Testing
+  test:
+    desc: Run tests with pytest
+    cmds:
+      - "{{.PYTHON}} -m duty test"
+
+  test-cov:
+    desc: Run tests with coverage
+    cmds:
+      - "{{.PYTHON}} -m duty test_cov"
+
+  test-watch:
+    desc: Run tests in watch mode
+    cmds:
+      - "{{.PYTHON}} -m duty test_watch"
+
+  # Security
+  security:
+    desc: Run security checks with bandit
+    cmds:
+      - "{{.PYTHON}} -m duty security"
+
+  deps-check:
+    desc: Check dependencies for vulnerabilities
+    cmds:
+      - "{{.PYTHON}} -m duty deps_check"
+
+  # Build and packaging
+  build:
+    desc: Build the package
+    cmds:
+      - "{{.PYTHON}} -m duty build"
+
+  clean:
+    desc: Clean up build artifacts and cache files
+    cmds:
+      - "{{.PYTHON}} -m duty clean"
+
+  # Documentation
+  docs-build:
+    desc: Build documentation
+    cmds:
+      - "{{.PYTHON}} -m duty docs_build"
+
+  docs-serve:
+    desc: Serve documentation locally
+    cmds:
+      - "{{.PYTHON}} -m duty docs_serve"
+
+  # Development workflows
+  check:
+    desc: Run all checks (format, lint, type-check, test)
+    cmds:
+      - "{{.PYTHON}} -m duty check_all"
+
+  pre-commit:
+    desc: Run pre-commit checks
+    cmds:
+      - "{{.PYTHON}} -m duty pre_commit"
+
+  pre-commit-install:
+    desc: Install pre-commit hooks
+    cmds:
+      - "{{.PYTHON}} -m duty pre_commit_install"
+
+  # Examples and profiling
+  example:
+    desc: Run the example script
+    cmds:
+      - "{{.PYTHON}} -m duty example"
+
+  profile:
+    desc: Profile the code
+    cmds:
+      - "{{.PYTHON}} -m duty profile"
+
+  benchmark:
+    desc: Run benchmarks
+    cmds:
+      - "{{.PYTHON}} -m duty benchmark"
+
+  # Dependency management
+  update:
+    desc: Update dependencies
+    cmds:
+      - "{{.PYTHON}} -m duty update_deps"
+
+  # Utility tasks
+  help:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # Composite tasks for common workflows
+  ci:
+    desc: Run CI checks (format, lint, type-check, test, security)
+    cmds:
+      - task: format
+      - task: lint
+      - task: type-check
+      - task: test
+      - task: security
+
+  dev-setup:
+    desc: Complete development environment setup
+    cmds:
+      - task: install-dev
+      - task: pre-commit-install
+      - echo "Development environment ready!"
+
+  release-check:
+    desc: Run all checks before release
+    cmds:
+      - task: clean
+      - task: check
+      - task: security
+      - task: build
+      - echo "Release checks passed!"

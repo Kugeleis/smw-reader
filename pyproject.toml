@@ -4,23 +4,83 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "Kugeleis ", email = "richard.springer@infineon.com" }
+    { name = "Kugeleis ", email = "richard.springer@infineon.com" },
 ]
 requires-python = ">=3.12"
-dependencies = [
-    "aiohttp>=3.13.0",
-    "httpx>=0.28.1",
-    "pytest-asyncio>=1.2.0",
-]
+dependencies = ["aiohttp>=3.13.0", "httpx>=0.28.1", "pytest-asyncio>=1.2.0"]
 
 [project.scripts]
 smw-reader = "smw_reader:main"
 
 [build-system]
-requires = ["uv_build>=0.9.2,<0.10.0"]
+requires      = ["uv_build>=0.9.2,<0.10.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "duty>=1.6.3",
     "pytest>=8.4.2",
+    "pytest-cov>=5.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-watch>=4.2.0",
+    "mypy>=1.11.0",
+    "ruff>=0.6.0",
+    "bandit>=1.7.0",
+    "pip-audit>=2.7.0",
+    "pre-commit>=4.0.0",
 ]
+
+# Ruff configuration
+[tool.ruff]
+line-length    = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "B",   # flake8-bugbear
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "S",   # bandit security
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+]
+
+ignore = [
+    "S101", # Use of assert detected
+    "S310", # urllib.request.urlopen (expected in HTTP client)
+    "S603", # subprocess call: check for execution of untrusted input
+    "S607", # Starting a process with a partial executable path
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["smw_reader"]
+
+# MyPy configuration
+[tool.mypy]
+python_version              = "3.12"
+strict                      = true
+warn_return_any             = true
+warn_unused_configs         = true
+disallow_untyped_defs       = true
+disallow_incomplete_defs    = true
+check_untyped_defs          = true
+disallow_untyped_decorators = true
+no_implicit_optional        = true
+warn_redundant_casts        = true
+warn_unused_ignores         = true
+warn_no_return              = true
+warn_unreachable            = true
+
+[[tool.mypy.overrides]]
+module                = "tests.*"
+disallow_untyped_defs = false
+
+[tool.mypy-setup]
+ignore_errors = true

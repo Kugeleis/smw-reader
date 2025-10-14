@@ -1,0 +1,36 @@
+# Pre-commit configuration
+# See https://pre-commit.com for more information
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: mixed-line-ending
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        additional_dependencies: [aiohttp, httpx]
+        args: [--ignore-missing-imports, --check-untyped-defs]
+        exclude: ^(tests/|example\.py|duties\.py)
+# Disabled bandit for now due to false positives with urllib usage
+# - repo: https://github.com/PyCQA/bandit
+#   rev: 1.8.6
+#   hooks:
+#     - id: bandit
+#       args: [-s, B101,B310]
+#       files: ^src/
