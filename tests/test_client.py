@@ -82,7 +82,8 @@ class TestSMWClient:
 
         assert result == mock_response
         mock_http_client.get.assert_called_once_with(
-            smw_client.api_url, params={"action": "ask", "format": "json", "query": "[[Category:Test]]"}
+            smw_client.api_url,
+            params={"action": "ask", "format": "json", "query": "[[Category:Test]]"},
         )
 
     def test_make_request_post_success(self, smw_client):
@@ -96,7 +97,8 @@ class TestSMWClient:
 
         assert result == mock_response
         mock_http_client.post.assert_called_once_with(
-            smw_client.api_url, data={"action": "ask", "format": "json", "query": "[[Category:Test]]"}
+            smw_client.api_url,
+            data={"action": "ask", "format": "json", "query": "[[Category:Test]]"},
         )
 
     def test_make_request_api_error(self, smw_client):
@@ -140,4 +142,6 @@ class TestSMWClient:
         result = smw_client.make_request("ask")
 
         assert result == mock_response
-        mock_http_client.get.assert_called_once_with(smw_client.api_url, params={"action": "ask", "format": "json"})
+        mock_http_client.get.assert_called_once_with(
+            smw_client.api_url, params={"action": "ask", "format": "json"}
+        )

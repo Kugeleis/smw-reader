@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .client import SMWClient
@@ -25,7 +25,7 @@ class APIEndpoint(ABC):
         self._client = client
 
     @abstractmethod
-    def execute(self, **params: Any) -> Dict[str, Any]:
+    def execute(self, **params: Any) -> dict[str, Any]:
         """Execute the API endpoint with given parameters.
 
         Args:
@@ -50,7 +50,7 @@ class HTTPClient(ABC):
     """Abstract interface for HTTP clients to enable dependency injection."""
 
     @abstractmethod
-    def get(self, url: str, params: Optional[Dict[str, Any]] = None, **kwargs: Any) -> Dict[str, Any]:
+    def get(self, url: str, params: dict[str, Any] | None = None, **kwargs: Any) -> dict[str, Any]:
         """Make a GET request.
 
         Args:
@@ -64,7 +64,7 @@ class HTTPClient(ABC):
         pass
 
     @abstractmethod
-    def post(self, url: str, data: Optional[Dict[str, Any]] = None, **kwargs: Any) -> Dict[str, Any]:
+    def post(self, url: str, data: dict[str, Any] | None = None, **kwargs: Any) -> dict[str, Any]:
         """Make a POST request.
 
         Args:

@@ -4,7 +4,7 @@ import json
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Any, Dict, Optional
+from typing import Any
 
 from .exceptions import SMWConnectionError, SMWServerError
 from .interfaces import HTTPClient
@@ -27,7 +27,7 @@ class RequestsHTTPClient(HTTPClient):
         self.timeout = timeout
         self.user_agent = user_agent
 
-    def get(self, url: str, params: Optional[Dict[str, Any]] = None, **kwargs: Any) -> Dict[str, Any]:
+    def get(self, url: str, params: dict[str, Any] | None = None, **kwargs: Any) -> dict[str, Any]:
         """Make a GET request.
 
         Args:
@@ -50,7 +50,7 @@ class RequestsHTTPClient(HTTPClient):
 
         return self._make_request(url, method="GET", **kwargs)
 
-    def post(self, url: str, data: Optional[Dict[str, Any]] = None, **kwargs: Any) -> Dict[str, Any]:
+    def post(self, url: str, data: dict[str, Any] | None = None, **kwargs: Any) -> dict[str, Any]:
         """Make a POST request.
 
         Args:
@@ -68,8 +68,12 @@ class RequestsHTTPClient(HTTPClient):
         return self._make_request(url, method="POST", data=data, **kwargs)
 
     def _make_request(
-        self, url: str, method: str = "GET", data: Optional[Dict[str, Any]] = None, **kwargs: Any
-    ) -> Dict[str, Any]:
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> dict[str, Any]:
         """Make an HTTP request.
 
         Args:
@@ -104,7 +108,10 @@ class RequestsHTTPClient(HTTPClient):
 
                 # Try to parse JSON response
                 try:
-                    return json.loads(response_text)
+                    parsed_json = json.loads(response_text)
+                    if not isinstance(parsed_json, dict):
+                        raise SMWServerError("Expected JSON object, got different type")
+                    return parsed_json
                 except json.JSONDecodeError as e:
                     raise SMWServerError(f"Invalid JSON response: {e}") from e
 

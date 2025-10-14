@@ -17,6 +17,8 @@ Example usage:
     results = ask_endpoint.ask("[[Category:Person]]|?Name|?Age")
 """
 
+from typing import Any
+
 from .client import SMWClient
 from .endpoints import AskEndpoint
 from .exceptions import (
@@ -45,7 +47,7 @@ __all__ = [
 __version__ = "0.1.0"
 
 
-def create_client(base_url: str, **kwargs) -> SMWClient:
+def create_client(base_url: str, **kwargs: Any) -> SMWClient:
     """Create a configured SMW client with common endpoints.
 
     Args:

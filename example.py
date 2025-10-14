@@ -14,7 +14,7 @@ from smw_reader.exceptions import SMWAPIError, SMWConnectionError
 def demonstrate_client_usage():
     """Demonstrate basic client usage patterns."""
     print("=== SMW Reader Client Examples ===\n")
-    
+
     # For this demo, we'll use a placeholder since live SMW instances may be unreliable
     # Replace with your actual SMW-enabled MediaWiki installation
     print("ℹ️  Note: This demo shows the API structure. Replace URL with your SMW instance.")
@@ -89,19 +89,22 @@ def example_structured_query(ask_endpoint, conditions: list[str], printouts: lis
     print(f"Found {results_count} people over 25 with occupation info")
     return result
 
-def build_conditions(conditions: list[str])->list[str]:
-    """ Build conditions list for query_pages method. """
+
+def build_conditions(conditions: list[str]) -> list[str]:
+    """Build conditions list for query_pages method."""
     return [f"[[{condition}]]" for condition in conditions]
 
-def build_printouts(printouts: list[str])->list[str]:
-    """ Build printouts list for query_pages method. """
+
+def build_printouts(printouts: list[str]) -> list[str]:
+    """Build printouts list for query_pages method."""
     return [f"?{printout}" for printout in printouts]
+
 
 def show_offline_examples():
     """Show example usage patterns when offline/connection fails."""
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("SMW API UNAVAILABLE - Showing usage examples and requirements")
-    print("="*70)
+    print("=" * 70)
 
     print("\n📚 Basic Usage Pattern:")
     print("```python")
@@ -183,12 +186,12 @@ def main():
         show_offline_examples()
     except SMWAPIError as e:
         error_msg = str(e)
-        if "Unrecognized value for parameter \"action\": ask" in error_msg:
+        if 'Unrecognized value for parameter "action": ask' in error_msg:
             print(f"❌ SMW Extension Missing: {e}")
             print("   This MediaWiki installation doesn't have Semantic MediaWiki extension!")
         else:
             print(f"❌ API error: {e}")
-        
+
         if e.response_data:
             print(f"   Details: {e.response_data.get('info', 'No additional info')}")
         show_offline_examples()

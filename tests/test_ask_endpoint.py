@@ -40,7 +40,9 @@ class TestAskEndpoint:
         result = ask_endpoint.execute(query="[[Category:Test]]")
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_execute_query_with_parameters(self, ask_endpoint):
         """Test executing a query with additional parameters."""
@@ -48,12 +50,23 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = mock_response
 
         result = ask_endpoint.execute(
-            query="[[Category:Person]]|?Name|?Age", limit=10, offset=5, sort="Name", order="asc"
+            query="[[Category:Person]]|?Name|?Age",
+            limit=10,
+            offset=5,
+            sort="Name",
+            order="asc",
         )
 
         assert result == mock_response
         ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Person]]|?Name|?Age", "limit": 10, "offset": 5, "sort": "Name", "order": "asc"}
+            "ask",
+            {
+                "query": "[[Category:Person]]|?Name|?Age",
+                "limit": 10,
+                "offset": 5,
+                "sort": "Name",
+                "order": "asc",
+            },
         )
 
     def test_execute_empty_query_raises_error(self, ask_endpoint):
@@ -92,7 +105,9 @@ class TestAskEndpoint:
         result = ask_endpoint.ask("[[Category:Test]]")
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_ask_method_with_kwargs(self, ask_endpoint):
         """Test the ask method with additional keyword arguments."""
@@ -110,14 +125,26 @@ class TestAskEndpoint:
         """Test asking with printout statements."""
         query_with_printouts = "[[Category:Person]]|?Name|?Age|?City"
         mock_response = {
-            "query": {"results": {"John Doe": {"printouts": {"Name": ["John Doe"], "Age": [30], "City": ["New York"]}}}}
+            "query": {
+                "results": {
+                    "John Doe": {
+                        "printouts": {
+                            "Name": ["John Doe"],
+                            "Age": [30],
+                            "City": ["New York"],
+                        }
+                    }
+                }
+            }
         }
         ask_endpoint._client.make_request.return_value = mock_response
 
         result = ask_endpoint.ask(query_with_printouts)
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": query_with_printouts})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": query_with_printouts}
+        )
 
     def test_ask_with_conditions_and_sorting(self, ask_endpoint):
         """Test complex query with conditions and sorting."""

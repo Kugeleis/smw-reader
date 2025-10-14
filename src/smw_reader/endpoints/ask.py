@@ -1,6 +1,6 @@
 """SMW API 'ask' endpoint implementation."""
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from ..exceptions import SMWValidationError
 from ..interfaces import APIEndpoint
@@ -10,7 +10,8 @@ class AskEndpoint(APIEndpoint):
     """Implementation of the SMW 'ask' API endpoint.
 
     The 'ask' endpoint allows executing semantic queries using SMW's query language.
-    This endpoint supports the full semantic query syntax with conditions, printouts, and parameters.
+    This endpoint supports the full semantic query syntax with conditions, printouts,
+    and parameters.
     """
 
     @property
@@ -18,7 +19,7 @@ class AskEndpoint(APIEndpoint):
         """The name of the API endpoint."""
         return "ask"
 
-    def execute(self, **params: Any) -> Dict[str, Any]:
+    def execute(self, **params: Any) -> dict[str, Any]:
         """Execute a semantic query using the 'ask' endpoint.
 
         Args:
@@ -58,7 +59,7 @@ class AskEndpoint(APIEndpoint):
 
         return self._client.make_request("ask", request_params)
 
-    def ask(self, query: str, **params: Any) -> Dict[str, Any]:
+    def ask(self, query: str, **params: Any) -> dict[str, Any]:
         """Convenience method for executing semantic queries.
 
         Args:
@@ -72,14 +73,14 @@ class AskEndpoint(APIEndpoint):
 
     def query_pages(
         self,
-        conditions: List[str],
-        printouts: Optional[List[str]] = None,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-        sort: Optional[str] = None,
-        order: Optional[str] = None,
-        mainlabel: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        conditions: list[str],
+        printouts: list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+        sort: str | None = None,
+        order: str | None = None,
+        mainlabel: str | None = None,
+    ) -> dict[str, Any]:
         """Execute a semantic query using structured parameters.
 
         This is a convenience method that builds the query string from structured parameters.
@@ -112,7 +113,7 @@ class AskEndpoint(APIEndpoint):
         query = "|".join(query_parts)
 
         # Prepare additional parameters
-        params = {}
+        params: dict[str, Any] = {}
         if limit is not None:
             params["limit"] = limit
         if offset is not None:
@@ -131,10 +132,10 @@ class AskEndpoint(APIEndpoint):
     def query_concept(
         self,
         concept: str,
-        printouts: Optional[List[str]] = None,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        printouts: list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> dict[str, Any]:
         """Query pages belonging to a specific concept.
 
         Args:
@@ -147,15 +148,17 @@ class AskEndpoint(APIEndpoint):
             The query results as a dictionary.
         """
         conditions = [f"[[Concept:{concept}]]"]
-        return self.query_pages(conditions=conditions, printouts=printouts, limit=limit, offset=offset)
+        return self.query_pages(
+            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+        )
 
     def query_category(
         self,
         category: str,
-        printouts: Optional[List[str]] = None,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        printouts: list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> dict[str, Any]:
         """Query pages in a specific category.
 
         Args:
@@ -168,17 +171,19 @@ class AskEndpoint(APIEndpoint):
             The query results as a dictionary.
         """
         conditions = [f"[[Category:{category}]]"]
-        return self.query_pages(conditions=conditions, printouts=printouts, limit=limit, offset=offset)
+        return self.query_pages(
+            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+        )
 
     def query_property_value(
         self,
         property_name: str,
-        value: Union[str, int, float],
+        value: str | int | float,
         operator: str = "::",
-        printouts: Optional[List[str]] = None,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-    ) -> Dict[str, Any]:
+        printouts: list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> dict[str, Any]:
         """Query pages with a specific property value.
 
         Args:
@@ -193,4 +198,6 @@ class AskEndpoint(APIEndpoint):
             The query results as a dictionary.
         """
         conditions = [f"[[{property_name}{operator}{value}]]"]
-        return self.query_pages(conditions=conditions, printouts=printouts, limit=limit, offset=offset)
+        return self.query_pages(
+            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+        )

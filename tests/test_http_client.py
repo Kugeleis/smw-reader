@@ -130,7 +130,8 @@ class TestRequestsHTTPClient:
         mock_response.getcode.return_value = 200
         mock_urlopen.return_value.__enter__.return_value = mock_response
 
-        # Test that the method works (actual header verification requires deeper inspection of the implementation)
+        # Test that the method works (actual header verification requires deeper inspection
+        # of the implementation)
         result = http_client.get("https://example.org/w/api.php")
 
         assert result == {"success": True}

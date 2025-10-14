@@ -1,6 +1,6 @@
 """Main SMW API client implementation."""
 
-from typing import Any, Dict, Optional
+from typing import Any
 from urllib.parse import urljoin
 
 from .exceptions import SMWAPIError, SMWValidationError
@@ -15,7 +15,12 @@ class SMWClient:
     following dependency injection and open/closed principles.
     """
 
-    def __init__(self, base_url: str, http_client: Optional[HTTPClient] = None, api_path: str = "api.php") -> None:
+    def __init__(
+        self,
+        base_url: str,
+        http_client: HTTPClient | None = None,
+        api_path: str = "api.php",
+    ) -> None:
         """Initialize the SMW client.
 
         Args:
@@ -26,7 +31,7 @@ class SMWClient:
         self.base_url = base_url.rstrip("/") + "/"
         self.api_url = urljoin(self.base_url, api_path)
         self.http_client = http_client or RequestsHTTPClient()
-        self._endpoints: Dict[str, APIEndpoint] = {}
+        self._endpoints: dict[str, APIEndpoint] = {}
 
     def register_endpoint(self, endpoint: APIEndpoint) -> None:
         """Register an API endpoint with the client.
@@ -52,7 +57,9 @@ class SMWClient:
             raise SMWValidationError(f"Endpoint '{name}' is not registered")
         return self._endpoints[name]
 
-    def make_request(self, action: str, params: Optional[Dict[str, Any]] = None, method: str = "GET") -> Dict[str, Any]:
+    def make_request(
+        self, action: str, params: dict[str, Any] | None = None, method: str = "GET"
+    ) -> dict[str, Any]:
         """Make a request to the SMW API.
 
         Args:
@@ -82,7 +89,10 @@ class SMWClient:
             # Check for API errors
             if "error" in response:
                 error_info = response["error"]
-                raise SMWAPIError(f"API Error: {error_info.get('info', 'Unknown error')}", response_data=error_info)
+                raise SMWAPIError(
+                    f"API Error: {error_info.get('info', 'Unknown error')}",
+                    response_data=error_info,
+                )
 
             return response
 

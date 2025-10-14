@@ -1,10 +1,17 @@
 """Custom exceptions for the SMW API client."""
 
+from typing import Any
+
 
 class SMWAPIError(Exception):
     """Base exception for SMW API errors."""
 
-    def __init__(self, message: str, status_code: int | None = None, response_data: dict | None = None) -> None:
+    def __init__(
+        self,
+        message: str,
+        status_code: int | None = None,
+        response_data: dict[str, Any] | None = None,
+    ) -> None:
         """Initialize SMW API error.
 
         Args:
