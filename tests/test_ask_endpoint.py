@@ -165,3 +165,121 @@ class TestAskEndpoint:
         assert hasattr(ask_endpoint, "_client")
         assert hasattr(ask_endpoint, "execute")
         assert hasattr(ask_endpoint, "endpoint_name")
+
+    def test_build_conditions_static_method(self):
+        """Test the build_conditions static method."""
+        conditions = ["Category:Software", "License::GPL", "Age::>25"]
+        expected = ["[[Category:Software]]", "[[License::GPL]]", "[[Age::>25]]"]
+
+        result = AskEndpoint.build_conditions(conditions)
+
+        assert result == expected
+
+    def test_build_conditions_empty_list(self):
+        """Test build_conditions with empty list."""
+        conditions = []
+        expected = []
+
+        result = AskEndpoint.build_conditions(conditions)
+
+        assert result == expected
+
+    def test_build_conditions_single_item(self):
+        """Test build_conditions with single condition."""
+        conditions = ["Category:Test"]
+        expected = ["[[Category:Test]]"]
+
+        result = AskEndpoint.build_conditions(conditions)
+
+        assert result == expected
+
+    def test_build_conditions_complex_conditions(self):
+        """Test build_conditions with complex semantic conditions."""
+        conditions = [
+            "Category:Person",
+            "Age::>25",
+            "City::New York",
+            "Has friend.Category:Developer",
+        ]
+        expected = [
+            "[[Category:Person]]",
+            "[[Age::>25]]",
+            "[[City::New York]]",
+            "[[Has friend.Category:Developer]]",
+        ]
+
+        result = AskEndpoint.build_conditions(conditions)
+
+        assert result == expected
+
+    def test_build_printouts_static_method(self):
+        """Test the build_printouts static method."""
+        printouts = ["Name", "License", "Homepage URL"]
+        expected = ["?Name", "?License", "?Homepage URL"]
+
+        result = AskEndpoint.build_printouts(printouts)
+
+        assert result == expected
+
+    def test_build_printouts_empty_list(self):
+        """Test build_printouts with empty list."""
+        printouts = []
+        expected = []
+
+        result = AskEndpoint.build_printouts(printouts)
+
+        assert result == expected
+
+    def test_build_printouts_single_item(self):
+        """Test build_printouts with single printout."""
+        printouts = ["Name"]
+        expected = ["?Name"]
+
+        result = AskEndpoint.build_printouts(printouts)
+
+        assert result == expected
+
+    def test_build_printouts_complex_properties(self):
+        """Test build_printouts with complex semantic properties."""
+        printouts = ["Name", "Has friend.Name", "Located in.Population", "Creation date"]
+        expected = ["?Name", "?Has friend.Name", "?Located in.Population", "?Creation date"]
+
+        result = AskEndpoint.build_printouts(printouts)
+
+        assert result == expected
+
+    def test_build_conditions_instance_method(self, ask_endpoint):
+        """Test that build_conditions works as instance method too."""
+        conditions = ["Category:Test"]
+        expected = ["[[Category:Test]]"]
+
+        result = ask_endpoint.build_conditions(conditions)
+
+        assert result == expected
+
+    def test_build_printouts_instance_method(self, ask_endpoint):
+        """Test that build_printouts works as instance method too."""
+        printouts = ["Name", "Age"]
+        expected = ["?Name", "?Age"]
+
+        result = ask_endpoint.build_printouts(printouts)
+
+        assert result == expected
+
+    def test_utility_methods_integration_with_query_pages(self, ask_endpoint):
+        """Test that utility methods integrate properly with query_pages."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        # Use utility methods to build query components
+        conditions = AskEndpoint.build_conditions(["Category:Person", "Age::>25"])
+        printouts = AskEndpoint.build_printouts(["Name", "Age"])
+
+        # This should work with query_pages method
+        result = ask_endpoint.query_pages(conditions=conditions, printouts=printouts, limit=10)
+
+        expected_query = "[[Category:Person]]|[[Age::>25]]|?Name|?Age"
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": expected_query, "limit": 10}
+        )
+        assert result == mock_response

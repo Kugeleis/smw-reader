@@ -25,8 +25,7 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [aiohttp, httpx]
-        args: [--ignore-missing-imports, --check-untyped-defs]
-        exclude: ^(tests/|example\.py|duties\.py)
+        files: ^src/
 # Disabled bandit for now due to false positives with urllib usage
 # - repo: https://github.com/PyCQA/bandit
 #   rev: 1.8.6

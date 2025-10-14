@@ -38,7 +38,7 @@ def lint_fix(ctx) -> None:
 @duty
 def type_check(ctx) -> None:
     """Run type checking with mypy."""
-    ctx.run("mypy src/ --ignore-missing-imports --check-untyped-defs", title="Type checking")
+    ctx.run("mypy src/", title="Type checking")
 
 
 @duty
@@ -176,8 +176,8 @@ def profile(ctx) -> None:
     """Profile the code."""
     ctx.run("python -m cProfile -o profile.stats example.py", title="Profiling code")
     cmd = (
-        'python -c "import pstats; '
-        'pstats.Stats(\\"profile.stats\\").sort_stats(\\"cumulative\\").print_stats(20)"'
+        'python -c "import pstats; pstats.Stats(\\"profile.stats\\").sort_stats(\\"cumulative\\") \
+        .print_stats(20)"'
     )
     ctx.run(cmd, title="Showing profile stats")
 

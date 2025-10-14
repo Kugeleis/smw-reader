@@ -201,3 +201,35 @@ class AskEndpoint(APIEndpoint):
         return self.query_pages(
             conditions=conditions, printouts=printouts, limit=limit, offset=offset
         )
+
+    @staticmethod
+    def build_conditions(conditions: list[str]) -> list[str]:
+        """Build conditions list for query_pages method.
+
+        Args:
+            conditions: List of condition strings (without [[ ]] brackets)
+
+        Returns:
+            List of formatted conditions with [[ ]] brackets
+
+        Example:
+            >>> AskEndpoint.build_conditions(["Category:Software", "License::GPL"])
+            ['[[Category:Software]]', '[[License::GPL]]']
+        """
+        return [f"[[{condition}]]" for condition in conditions]
+
+    @staticmethod
+    def build_printouts(printouts: list[str]) -> list[str]:
+        """Build printouts list for query_pages method.
+
+        Args:
+            printouts: List of property names (without ? prefix)
+
+        Returns:
+            List of formatted printouts with ? prefix
+
+        Example:
+            >>> AskEndpoint.build_printouts(["Name", "License", "Homepage URL"])
+            ['?Name', '?License', '?Homepage URL']
+        """
+        return [f"?{printout}" for printout in printouts]
