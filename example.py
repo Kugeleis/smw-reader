@@ -11,14 +11,14 @@ from smw_reader.endpoints.ask import AskEndpoint
 from smw_reader.exceptions import SMWAPIError, SMWConnectionError
 
 
-def demonstrate_client_usage():
+def demonstrate_client_usage(base_url: str):
     """Demonstrate basic client usage patterns."""
     print("=== SMW Reader Client Examples ===\n")
 
     # For this demo, we'll use a placeholder since live SMW instances may be unreliable
     # Replace with your actual SMW-enabled MediaWiki installation
     print("ℹ️  Note: This demo shows the API structure. Replace URL with your SMW instance.")
-    client = SMWClient("https://directory.fsf.org/w")  # Placeholder URL
+    client = SMWClient(base_url)  # Placeholder URL
 
     # Register the ask endpoint
     ask_endpoint = AskEndpoint(client)
@@ -86,7 +86,7 @@ def example_structured_query(ask_endpoint, conditions: list[str], printouts: lis
     )
 
     results_count = len(result.get("query", {}).get("results", {}))
-    print(f"Found {results_count} people over 25 with occupation info")
+    print(f"Found {results_count} featured software with license info")
     return result
 
 
@@ -100,90 +100,70 @@ def build_printouts(printouts: list[str]) -> list[str]:
     return [f"?{printout}" for printout in printouts]
 
 
-def show_offline_examples():
-    """Show example usage patterns when offline/connection fails."""
-    print("\n" + "=" * 70)
-    print("SMW API UNAVAILABLE - Showing usage examples and requirements")
-    print("=" * 70)
-
-    print("\n📚 Basic Usage Pattern:")
-    print("```python")
-    print("from smw_reader import SMWClient")
-    print("from smw_reader.endpoints.ask import AskEndpoint")
-    print()
-    print("# Create client")
-    print('client = SMWClient("https://your-wiki.org/w/")')
-    print()
-    print("# Register ask endpoint")
-    print("ask_endpoint = AskEndpoint(client)")
-    print("client.register_endpoint(ask_endpoint)")
-    print()
-    print("# Execute queries")
-    print('result = ask_endpoint.ask("[[Category:Person]]")')
-    print("```")
-
-    print("\n🔍 Query Examples:")
-    print("• Simple category: [[Category:Person]]")
-    print("• With properties: [[Category:Person]]|?Name|?Age")
-    print("• With conditions: [[Category:Person]][[Age::>25]]")
-    print("• Complex query: [[Category:Software]][[License::Free]]|?Version|?Developer|sort=Name")
-
-    print("\n⚙️ Method Options:")
-    print("• ask_endpoint.execute(query='...', limit=10)")
-    print("• ask_endpoint.ask('...', limit=5, sort='Name')")
-    print("• ask_endpoint.query_pages(conditions=['[[Category:X]]'], printouts=['?Name'])")
-
-    print("\n� Expected Response Structure:")
-    print("```json")
-    print("{")
-    print('  "query": {')
-    print('    "results": {')
-    print('      "John Doe": {')
-    print('        "printouts": {')
-    print('          "Name": ["John Doe"],')
-    print('          "Age": [30]')
-    print("        },")
-    print('        "fulltext": "John Doe",')
-    print('        "fullurl": "https://wiki.example.org/John_Doe"')
-    print("      }")
-    print("    }")
-    print("  }")
-    print("}")
-    print("```")
-
-    print("\n�💡 Requirements for SMW API:")
-    print("   • MediaWiki with Semantic MediaWiki extension installed")
-    print("   • API endpoint that supports 'ask' action")
-    print("   • Example SMW instances:")
-    print("     - https://www.semantic-mediawiki.org/w/ (official)")
-    print("     - Your own MediaWiki + SMW installation")
-    print()
-    print("❌ Note: Regular MediaWiki (like Wikipedia) does NOT support SMW queries")
-    print("   The 'ask' action is only available with SMW extension")
-
-
 def main():
-    """Main example function demonstrating SMW API usage."""
+    """Main example function demonstrating SMW API usage with FSF Directory queries."""
 
-    condition = "Category:Email-software"
-    printout = "?Name|?Age"
+    # Use FSF Directory as the primary example (correct API endpoint)
+    base_url = "https://directory.fsf.org/w/"
 
-    conditions = ["Category:Person", "Age::>25"]
-    printouts = ["Name", "Age", "Occupation"]
+    # FSF Directory-specific examples
+    print("=== Free Software Directory (FSF) SMW Query Examples ===\n")
+
+    # Example queries based on FSF Directory structure (verified working)
+    fsf_queries = {
+        "featured_software": {
+            "condition": "Featured date::+",
+            "printout": "?Name|?License|?Homepage URL|?Full description",
+        },
+        "gnu_software": {
+            "condition": "Is GNU::Yes",
+            "printout": "?Name|?License|?Interface|?Homepage URL",
+        },
+        "recent_software": {
+            "condition": "Submitted date::+",
+            "printout": "?Name|?License|?Submitted date|?Homepage URL",
+        },
+    }
+
+    # Use working FSF Directory properties for structured example
+    conditions = ["Featured date::+", "License::+"]
+    printouts = ["Name", "License", "Homepage URL", "Featured date"]
     try:
-        client, ask_endpoint = demonstrate_client_usage()
+        client, ask_endpoint = demonstrate_client_usage(base_url)
 
-        # Run examples sequentially
+        # Run examples sequentially with FSF Directory queries
         example_basic_query(client)
-        example_ask_endpoint(ask_endpoint, condition, printout)
+
+        # Use FSF Directory-specific queries with utility functions
+        featured_conditions = build_conditions([fsf_queries["featured_software"]["condition"]])
+        featured_printouts = build_printouts(
+            ["Name", "License", "Homepage URL", "Full description"]
+        )
+        featured_query = "|".join(featured_conditions + featured_printouts)
+
+        print("\nExample 2: Featured Software Query (using utility functions)")
+        print("-" * 62)
+        featured_result = ask_endpoint.execute(query=featured_query, limit=5)
+        featured_count = len(featured_result.get("query", {}).get("results", {}))
+        print(f"Found {featured_count} featured software packages")
+
+        print("\nExample: GNU Software Query (using utility functions)")
+        print("-" * 60)
+        gnu_conditions = build_conditions([fsf_queries["gnu_software"]["condition"]])
+        gnu_printouts = build_printouts(["Name", "License", "Interface", "Homepage URL"])
+        gnu_query = "|".join(gnu_conditions + gnu_printouts)
+
+        gnu_result = ask_endpoint.execute(query=gnu_query, limit=5)
+        gnu_count = len(gnu_result.get("query", {}).get("results", {}))
+        print(f"Found {gnu_count} GNU software packages")
+
         example_convenience_method(ask_endpoint)
         example_structured_query(ask_endpoint, conditions, printouts)
 
-        print("\n✅ All examples completed successfully!")
+        print("\n✅ All FSF Directory examples completed successfully!")
 
     except SMWConnectionError as e:
         print(f"❌ Connection error: {e}")
-        show_offline_examples()
     except SMWAPIError as e:
         error_msg = str(e)
         if 'Unrecognized value for parameter "action": ask' in error_msg:
@@ -194,10 +174,9 @@ def main():
 
         if e.response_data:
             print(f"   Details: {e.response_data.get('info', 'No additional info')}")
-        show_offline_examples()
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
-        show_offline_examples()
+        # show_offline_examples()
 
 
 if __name__ == "__main__":
