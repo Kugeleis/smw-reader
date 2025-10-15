@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [0.1.1] - 2025-10-15
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
 ### Added
 - Initial release of SMW Reader
 - Modular client architecture for Semantic MediaWiki APIs

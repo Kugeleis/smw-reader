@@ -44,7 +44,7 @@ __all__ = [
     "RequestsHTTPClient",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 def create_client(base_url: str, **kwargs: Any) -> SMWClient:
