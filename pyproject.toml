@@ -4,10 +4,10 @@ version = "0.1.1"
 description = "A modular Python client library for accessing Semantic MediaWiki (SMW) API endpoints"
 readme = "README.md"
 authors = [
-    { name = "Kugeleis ", email = "richard.springer@infineon.com" },
+    { name = "Kugeleis", email = "9948777+Kugeleis@users.noreply.github.com" },
 ]
 maintainers = [
-    { name = "Kugeleis ", email = "richard.springer@infineon.com" },
+    { name = "Kugeleis", email = "9948777+Kugeleis@users.noreply.github.com" },
 ]
 license = { text = "MIT" }
 keywords = ["semantic-mediawiki", "smw", "mediawiki", "api-client", "wiki"]
