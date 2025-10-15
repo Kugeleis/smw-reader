@@ -165,3 +165,32 @@ tasks:
       - task: security
       - task: build
       - echo "Release checks passed!"
+
+  # Version management with bump-my-version
+  version-patch:
+    desc: Bump patch version (0.1.0 -> 0.1.1)
+    cmds:
+      - task: check
+      - uv run bump-my-version bump patch
+
+  version-minor:
+    desc: Bump minor version (0.1.0 -> 0.2.0)
+    cmds:
+      - task: check
+      - uv run bump-my-version bump minor
+
+  version-major:
+    desc: Bump major version (0.1.0 -> 1.0.0)
+    cmds:
+      - task: check
+      - uv run bump-my-version bump major
+
+  version-show:
+    desc: Show current version information
+    cmds:
+      - uv run bump-my-version show current_version
+
+  version-dry-run:
+    desc: Show what would happen without making changes
+    cmds:
+      - uv run bump-my-version bump --dry-run {{.CLI_ARGS | default "patch"}}

@@ -16,11 +16,17 @@ A modular Python client library for accessing Semantic MediaWiki (SMW) API endpo
 ## Installation
 
 ```bash
-# Clone the repository
+# Install from PyPI (when published)
+pip install smw-reader
+
+# Or with optional HTTP client support
+pip install smw-reader[aiohttp]  # For async HTTP with aiohttp
+pip install smw-reader[httpx]    # For async HTTP with httpx
+pip install smw-reader[async]    # For full async support
+
+# Development installation
 git clone <repository-url>
 cd smw-reader
-
-# Install dependencies
 uv sync
 ```
 
