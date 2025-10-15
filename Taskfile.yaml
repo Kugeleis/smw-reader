@@ -63,6 +63,11 @@ tasks:
     cmds:
       - "{{.PYTHON}} -m duty test_watch"
 
+  test-versions:
+    desc: Test package across supported Python versions
+    cmds:
+      - "{{.PYTHON}} -m duty test_versions"
+
   # Security
   security:
     desc: Run security checks with bandit

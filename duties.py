@@ -6,9 +6,30 @@ due to configuration issues but can still be run manually via duty tasks.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from duty import duty
+
+
+def get_supported_python_versions() -> list[str]:
+    """Extract supported Python versions from pyproject.toml classifiers."""
+    pyproject_path = PROJECT_ROOT / "pyproject.toml"
+    if not pyproject_path.exists():
+        # Fallback to default versions if pyproject.toml is not found
+        return ["3.10", "3.11", "3.12", "3.13"]
+
+    content = pyproject_path.read_text()
+    # Match Python version classifiers like "Programming Language :: Python :: 3.10"
+    pattern = r'"Programming Language :: Python :: (3\.\d+)"'
+    matches = re.findall(pattern, content)
+
+    # Filter out the generic "3" classifier and sort versions
+    versions = [v for v in matches if "." in v]
+    versions.sort(key=lambda x: tuple(map(int, x.split("."))))
+
+    return versions if versions else ["3.10", "3.11", "3.12", "3.13"]
+
 
 # Project paths
 PROJECT_ROOT = Path(__file__).parent
@@ -60,6 +81,25 @@ def test_cov(ctx) -> None:
 def test_watch(ctx) -> None:
     """Run tests in watch mode."""
     ctx.run("pytest-watch", title="Running tests in watch mode")
+
+
+@duty
+def test_versions(ctx) -> None:
+    """Test package across Python versions with uv."""
+    versions = get_supported_python_versions()
+
+    if not versions:
+        print("❌ No Python versions found in pyproject.toml")
+        return
+
+    print(f"Found supported Python versions: {', '.join(versions)}")
+
+    for version in versions:
+        print(f"Testing Python {version}...")
+        ctx.run(
+            f"uv run --python {version} --with . python -c 'import smw_reader; print(\"✅ Success\")'",
+            title=f"Testing Python {version}",
+        )
 
 
 @duty
@@ -175,10 +215,8 @@ def example(ctx) -> None:
 def profile(ctx) -> None:
     """Profile the code."""
     ctx.run("python -m cProfile -o profile.stats example.py", title="Profiling code")
-    cmd = (
-        'python -c "import pstats; pstats.Stats(\\"profile.stats\\").sort_stats(\\"cumulative\\") \
+    cmd = 'python -c "import pstats; pstats.Stats(\\"profile.stats\\").sort_stats(\\"cumulative\\") \
         .print_stats(20)"'
-    )
     ctx.run(cmd, title="Showing profile stats")
 
 

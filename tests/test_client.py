@@ -142,6 +142,4 @@ class TestSMWClient:
         result = smw_client.make_request("ask")
 
         assert result == mock_response
-        mock_http_client.get.assert_called_once_with(
-            smw_client.api_url, params={"action": "ask", "format": "json"}
-        )
+        mock_http_client.get.assert_called_once_with(smw_client.api_url, params={"action": "ask", "format": "json"})

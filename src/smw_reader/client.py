@@ -57,9 +57,7 @@ class SMWClient:
             raise SMWValidationError(f"Endpoint '{name}' is not registered")
         return self._endpoints[name]
 
-    def make_request(
-        self, action: str, params: dict[str, Any] | None = None, method: str = "GET"
-    ) -> dict[str, Any]:
+    def make_request(self, action: str, params: dict[str, Any] | None = None, method: str = "GET") -> dict[str, Any]:
         """Make a request to the SMW API.
 
         Args:

@@ -40,9 +40,7 @@ class TestAskEndpoint:
         result = ask_endpoint.execute(query="[[Category:Test]]")
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]"}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
     def test_execute_query_with_parameters(self, ask_endpoint):
         """Test executing a query with additional parameters."""
@@ -105,9 +103,7 @@ class TestAskEndpoint:
         result = ask_endpoint.ask("[[Category:Test]]")
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]"}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
     def test_ask_method_with_kwargs(self, ask_endpoint):
         """Test the ask method with additional keyword arguments."""
@@ -142,9 +138,7 @@ class TestAskEndpoint:
         result = ask_endpoint.ask(query_with_printouts)
 
         assert result == mock_response
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": query_with_printouts}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": query_with_printouts})
 
     def test_ask_with_conditions_and_sorting(self, ask_endpoint):
         """Test complex query with conditions and sorting."""
@@ -279,9 +273,7 @@ class TestAskEndpoint:
         result = ask_endpoint.query_pages(conditions=conditions, printouts=printouts, limit=10)
 
         expected_query = "[[Category:Person]]|[[Age::>25]]|?Name|?Age"
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": expected_query, "limit": 10}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 10})
         assert result == mock_response
 
     def test_format_printouts_helper_method(self, ask_endpoint):
@@ -313,28 +305,20 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = mock_response
 
         # Test with plain property names (should be auto-formatted)
-        result = ask_endpoint.query_property_value(
-            "License", "GPL", printouts=["Name", "Homepage URL"], limit=5
-        )
+        result = ask_endpoint.query_property_value("License", "GPL", printouts=["Name", "Homepage URL"], limit=5)
 
         expected_query = "[[License::GPL]]|?Name|?Homepage URL"
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": expected_query, "limit": 5}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 5})
         assert result == mock_response
 
         # Reset the mock for the second test
         ask_endpoint._client.make_request.reset_mock()
 
         # Test with already formatted printouts (should work as before)
-        result = ask_endpoint.query_property_value(
-            "License", "GPL", printouts=["?Name", "?Homepage URL"], limit=5
-        )
+        result = ask_endpoint.query_property_value("License", "GPL", printouts=["?Name", "?Homepage URL"], limit=5)
 
         expected_query = "[[License::GPL]]|?Name|?Homepage URL"
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": expected_query, "limit": 5}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 5})
         assert result == mock_response
 
     def test_query_category_with_auto_format_printouts(self, ask_endpoint):
@@ -346,9 +330,7 @@ class TestAskEndpoint:
         result = ask_endpoint.query_category("Software", printouts=["Name", "License"], limit=10)
 
         expected_query = "[[Category:Software]]|?Name|?License"
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": expected_query, "limit": 10}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 10})
         assert result == mock_response
 
     def test_query_concept_with_auto_format_printouts(self, ask_endpoint):
@@ -360,7 +342,5 @@ class TestAskEndpoint:
         result = ask_endpoint.query_concept("Important People", printouts=["Name", "Age"], limit=5)
 
         expected_query = "[[Concept:Important People]]|?Name|?Age"
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": expected_query, "limit": 5}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 5})
         assert result == mock_response
