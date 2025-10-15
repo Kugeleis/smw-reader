@@ -283,3 +283,84 @@ class TestAskEndpoint:
             "ask", {"query": expected_query, "limit": 10}
         )
         assert result == mock_response
+
+    def test_format_printouts_helper_method(self, ask_endpoint):
+        """Test the _format_printouts helper method."""
+        # Test with None
+        assert ask_endpoint._format_printouts(None) is None
+
+        # Test with empty list
+        assert ask_endpoint._format_printouts([]) == []
+
+        # Test with plain property names
+        printouts = ["Name", "Age", "Homepage URL"]
+        expected = ["?Name", "?Age", "?Homepage URL"]
+        assert ask_endpoint._format_printouts(printouts) == expected
+
+        # Test with already formatted printouts
+        printouts = ["?Name", "?Age", "?Homepage URL"]
+        expected = ["?Name", "?Age", "?Homepage URL"]
+        assert ask_endpoint._format_printouts(printouts) == expected
+
+        # Test with mixed format
+        printouts = ["Name", "?Age", "Homepage URL"]
+        expected = ["?Name", "?Age", "?Homepage URL"]
+        assert ask_endpoint._format_printouts(printouts) == expected
+
+    def test_query_property_value_with_auto_format_printouts(self, ask_endpoint):
+        """Test query_property_value with automatic printout formatting."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        # Test with plain property names (should be auto-formatted)
+        result = ask_endpoint.query_property_value(
+            "License", "GPL", printouts=["Name", "Homepage URL"], limit=5
+        )
+
+        expected_query = "[[License::GPL]]|?Name|?Homepage URL"
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": expected_query, "limit": 5}
+        )
+        assert result == mock_response
+
+        # Reset the mock for the second test
+        ask_endpoint._client.make_request.reset_mock()
+
+        # Test with already formatted printouts (should work as before)
+        result = ask_endpoint.query_property_value(
+            "License", "GPL", printouts=["?Name", "?Homepage URL"], limit=5
+        )
+
+        expected_query = "[[License::GPL]]|?Name|?Homepage URL"
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": expected_query, "limit": 5}
+        )
+        assert result == mock_response
+
+    def test_query_category_with_auto_format_printouts(self, ask_endpoint):
+        """Test query_category with automatic printout formatting."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        # Test with plain property names
+        result = ask_endpoint.query_category("Software", printouts=["Name", "License"], limit=10)
+
+        expected_query = "[[Category:Software]]|?Name|?License"
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": expected_query, "limit": 10}
+        )
+        assert result == mock_response
+
+    def test_query_concept_with_auto_format_printouts(self, ask_endpoint):
+        """Test query_concept with automatic printout formatting."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        # Test with plain property names
+        result = ask_endpoint.query_concept("Important People", printouts=["Name", "Age"], limit=5)
+
+        expected_query = "[[Concept:Important People]]|?Name|?Age"
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": expected_query, "limit": 5}
+        )
+        assert result == mock_response

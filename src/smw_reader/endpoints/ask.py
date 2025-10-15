@@ -14,6 +14,27 @@ class AskEndpoint(APIEndpoint):
     and parameters.
     """
 
+    def _format_printouts(self, printouts: list[str] | None) -> list[str] | None:
+        """Format printouts by adding '?' prefix if not already present.
+
+        Args:
+            printouts: List of property names, with or without '?' prefix.
+
+        Returns:
+            List of printouts with '?' prefix, or None if input was None.
+        """
+        if not printouts:
+            return printouts
+
+        formatted_printouts = []
+        for printout in printouts:
+            if not printout.startswith("?"):
+                formatted_printouts.append(f"?{printout}")
+            else:
+                formatted_printouts.append(printout)
+
+        return formatted_printouts
+
     @property
     def endpoint_name(self) -> str:
         """The name of the API endpoint."""
@@ -140,7 +161,10 @@ class AskEndpoint(APIEndpoint):
 
         Args:
             concept: The concept name (e.g., "Important People").
-            printouts: List of properties to include in results.
+            printouts: List of properties to include in results. Can be either:
+                - Plain property names: ["Name", "Age", "Homepage URL"]
+                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
+                Both formats are automatically handled.
             limit: Maximum number of results.
             offset: Offset for pagination.
 
@@ -149,7 +173,10 @@ class AskEndpoint(APIEndpoint):
         """
         conditions = [f"[[Concept:{concept}]]"]
         return self.query_pages(
-            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+            conditions=conditions,
+            printouts=self._format_printouts(printouts),
+            limit=limit,
+            offset=offset,
         )
 
     def query_category(
@@ -163,7 +190,10 @@ class AskEndpoint(APIEndpoint):
 
         Args:
             category: The category name (e.g., "People").
-            printouts: List of properties to include in results.
+            printouts: List of properties to include in results. Can be either:
+                - Plain property names: ["Name", "Age", "Homepage URL"]
+                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
+                Both formats are automatically handled.
             limit: Maximum number of results.
             offset: Offset for pagination.
 
@@ -172,7 +202,10 @@ class AskEndpoint(APIEndpoint):
         """
         conditions = [f"[[Category:{category}]]"]
         return self.query_pages(
-            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+            conditions=conditions,
+            printouts=self._format_printouts(printouts),
+            limit=limit,
+            offset=offset,
         )
 
     def query_property_value(
@@ -190,7 +223,10 @@ class AskEndpoint(APIEndpoint):
             property_name: The property name.
             value: The property value to search for.
             operator: The comparison operator ("::", "::<", "::>", "::!", etc.).
-            printouts: List of properties to include in results.
+            printouts: List of properties to include in results. Can be either:
+                - Plain property names: ["Name", "Age", "Homepage URL"]
+                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
+                Both formats are automatically handled.
             limit: Maximum number of results.
             offset: Offset for pagination.
 
@@ -199,7 +235,10 @@ class AskEndpoint(APIEndpoint):
         """
         conditions = [f"[[{property_name}{operator}{value}]]"]
         return self.query_pages(
-            conditions=conditions, printouts=printouts, limit=limit, offset=offset
+            conditions=conditions,
+            printouts=self._format_printouts(printouts),
+            limit=limit,
+            offset=offset,
         )
 
     @staticmethod
