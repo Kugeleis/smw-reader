@@ -1,5 +1,4 @@
-name: Publish to PyPI
-
+name: Publish to TestPyPI
 on:
   release:
     types: [published]
@@ -21,9 +20,7 @@ jobs:
         run: |
           uv build
 
-      - name: Publish to PyPI
+      - name: Publish to PyPI Test
         uses: pypa/gh-action-pypi-publish@release/v1
-        # with:
-        # Use trusted publishing - configure on PyPI first
-        # Or use API token in repository secrets:
-        # password: ${{ secrets.PYPI_API_TOKEN }}
+        with:
+          repository_url: https://test.pypi.org/legacy/
