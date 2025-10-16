@@ -36,11 +36,11 @@ async   = ["aiohttp>=3.13.0", "httpx>=0.28.1", "pytest-asyncio>=0.24.0"]
 
 # URLs section for better PyPI presentation
 [project.urls]
-"Homepage"      = "https://github.com/your-username/smw-reader"
-"Repository"    = "https://github.com/your-username/smw-reader"
-"Bug Reports"   = "https://github.com/your-username/smw-reader/issues"
-"Documentation" = "https://github.com/your-username/smw-reader#readme"
-"Changelog"     = "https://github.com/your-username/smw-reader/blob/main/CHANGELOG.md"
+"Homepage"      = "https://github.com/Kugeleis/smw-reader"
+"Repository"    = "https://github.com/Kugeleis/smw-reader"
+"Bug Reports"   = "https://github.com/Kugeleis/smw-reader/issues"
+"Documentation" = "https://github.com/Kugeleis/smw-reader#readme"
+"Changelog"     = "https://github.com/Kugeleis/smw-reader/blob/main/CHANGELOG.md"
 
 # CLI script removed - this is a library package
 # [project.scripts]
