@@ -1,7 +1,8 @@
 name: Publish to TestPyPI
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   publish:
