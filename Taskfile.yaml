@@ -190,6 +190,12 @@ tasks:
       - task: check
       - uv run bump-my-version bump major
 
+  version-prerelease:
+    desc: Bump pre-release version (e.g. 0.1.1 -> 0.1.2-alpha.0)
+    cmds:
+      - task: check
+      - uv run bump-my-version bump patch --pre-release alpha
+
   version-show:
     desc: Show current version information
     cmds:
