@@ -241,6 +241,92 @@ class AskEndpoint(APIEndpoint):
             offset=offset,
         )
 
+    def query_dict(
+        self,
+        query_conditions: dict[str, Any],
+        printouts: list[str] | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+        sort: str | None = None,
+        order: str | None = None,
+        mainlabel: str | None = None,
+    ) -> dict[str, Any]:
+        """Execute a semantic query using a dictionary of conditions.
+
+        This method builds a query from a dictionary, providing a structured way to
+        define complex queries.
+
+        Args:
+            query_conditions: A dictionary defining the query conditions.
+                It can contain the following keys:
+                - 'categories': A list of category names.
+                - 'concepts': A list of concept names.
+                - 'properties': A dictionary of properties, where the key is the
+                  property name and the value is either a string (for equality '::')
+                  or a dictionary with 'value' and 'operator' keys.
+            printouts: List of properties to include in results.
+            limit: Maximum number of results.
+            offset: Offset for pagination.
+            sort: Property to sort by.
+            order: Sort order ('asc' or 'desc').
+            mainlabel: Label for the main result column.
+
+        Returns:
+            The query results as a dictionary.
+
+        Raises:
+            SMWValidationError: If the query_conditions dictionary is invalid.
+        """
+        conditions: list[str] = []
+
+        if "categories" in query_conditions:
+            categories = query_conditions["categories"]
+            if isinstance(categories, list):
+                for category in categories:
+                    conditions.append(f"[[Category:{category}]]")
+            else:
+                raise SMWValidationError("'categories' must be a list of strings.")
+
+        if "concepts" in query_conditions:
+            concepts = query_conditions["concepts"]
+            if isinstance(concepts, list):
+                for concept in concepts:
+                    conditions.append(f"[[Concept:{concept}]]")
+            else:
+                raise SMWValidationError("'concepts' must be a list of strings.")
+
+        if "properties" in query_conditions:
+            properties = query_conditions["properties"]
+            if isinstance(properties, dict):
+                for prop, value_or_dict in properties.items():
+                    if isinstance(value_or_dict, dict):
+                        operator = value_or_dict.get("operator", "::")
+                        value = value_or_dict.get("value")
+                        if value is None:
+                            raise SMWValidationError(
+                                f"Property '{prop}' dictionary must have a 'value' key."
+                            )
+                        conditions.append(f"[[{prop}{operator}{value}]]")
+                    else:
+                        conditions.append(f"[[{prop}::{value_or_dict}]]")
+            else:
+                raise SMWValidationError("'properties' must be a dictionary.")
+
+        if not conditions:
+            raise SMWValidationError(
+                "The query_conditions dictionary resulted in no conditions."
+            )
+
+        return self.query_pages(
+            conditions=conditions,
+            printouts=self._format_printouts(printouts),
+            limit=limit,
+            offset=offset,
+            sort=sort,
+            order=order,
+            mainlabel=mainlabel,
+        )
+
     @staticmethod
     def build_conditions(conditions: list[str]) -> list[str]:
         """Build conditions list for query_pages method.
