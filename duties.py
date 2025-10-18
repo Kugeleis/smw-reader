@@ -183,20 +183,14 @@ def pre_commit_install(ctx) -> None:
 
 @duty
 def docs_build(ctx) -> None:
-    """Build documentation."""
-    if DOCS_PATH.exists():
-        ctx.run("sphinx-build docs docs/_build", title="Building documentation")
-    else:
-        print("No docs directory found. Skipping documentation build.")
+    """Build documentation with pdoc."""
+    ctx.run("pdoc --html src/smw_reader -o docs/pdoc", title="Building documentation")
 
 
 @duty
 def docs_serve(ctx) -> None:
-    """Serve documentation locally."""
-    if DOCS_PATH.exists():
-        ctx.run("sphinx-autobuild docs docs/_build", title="Serving documentation")
-    else:
-        print("No docs directory found. Skipping documentation serving.")
+    """Serve documentation with pdoc."""
+    ctx.run("pdoc --http localhost:8080 src/smw_reader", title="Serving documentation")
 
 
 @duty
