@@ -1,9 +1,11 @@
 """SMW API 'ask' endpoint implementation."""
 
+import warnings
 from typing import Any
 
 from ..exceptions import SMWValidationError
 from ..interfaces import APIEndpoint
+from .query import QueryBuilder
 
 
 class AskEndpoint(APIEndpoint):
@@ -15,25 +17,9 @@ class AskEndpoint(APIEndpoint):
     """
 
     def _format_printouts(self, printouts: list[str] | None) -> list[str] | None:
-        """Format printouts by adding '?' prefix if not already present.
-
-        Args:
-            printouts: List of property names, with or without '?' prefix.
-
-        Returns:
-            List of printouts with '?' prefix, or None if input was None.
-        """
         if not printouts:
             return printouts
-
-        formatted_printouts = []
-        for printout in printouts:
-            if not printout.startswith("?"):
-                formatted_printouts.append(f"?{printout}")
-            else:
-                formatted_printouts.append(printout)
-
-        return formatted_printouts
+        return [f"?{p}" if not p.startswith("?") else p for p in printouts]
 
     @property
     def endpoint_name(self) -> str:
@@ -45,312 +31,136 @@ class AskEndpoint(APIEndpoint):
 
         Args:
             **params: Query parameters including:
-                - query: The semantic query string (e.g., "[[Category:Person]]|?Name|?Age").
-                - limit: Maximum number of results (default varies by wiki configuration)
+                - query: The semantic query string
+                - limit: Maximum number of results
                 - offset: Offset for pagination
                 - sort: Sort field
                 - order: Sort order ('asc' or 'desc')
-                - mainlabel: Label for the main result column
-                - source: Source format
 
         Returns:
-            The query results as a dictionary containing:
-                - query: Query metadata
-                - query-continue-offset: Offset for next page (if applicable)
-                - results: Dictionary of result pages with properties
-                - serializer: Serialization format information
-                - version: SMW version information
-                - meta: Additional metadata
+            The query results as a dictionary.
 
         Raises:
             SMWValidationError: If the query is invalid.
-            SMWAPIError: If the API request fails.
         """
         query = params.get("query")
         if not query or not isinstance(query, str):
             raise SMWValidationError("Query parameter must be a non-empty string")
 
-        # Prepare request parameters
         request_params = {"query": query.strip()}
-
-        # Add optional parameters
         for param_name, param_value in params.items():
             if param_name != "query" and param_value is not None:
                 request_params[param_name] = param_value
 
         return self._client.make_request("ask", request_params)
 
-    def ask(self, query: str, **params: Any) -> dict[str, Any]:
+    def query(self, query: str | QueryBuilder, **params: Any) -> dict[str, Any]:
         """Convenience method for executing semantic queries.
 
         Args:
-            query: The semantic query string (e.g., "[[Category:Person]]|?Name|?Age").
+            query: The semantic query string or a QueryBuilder instance.
             **params: Additional query parameters.
 
         Returns:
             The query results as a dictionary.
         """
-        return self.execute(query=query, **params)
+        return self.execute(query=str(query), **params)
+
+    def ask(self, query: str | QueryBuilder, **params: Any) -> dict[str, Any]:
+        """Alias for the query method."""
+        warnings.warn(
+            "The 'ask' method is deprecated, use 'query' instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.query(query, **params)
 
     def query_pages(
-        self,
-        conditions: list[str],
-        printouts: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
-        sort: str | None = None,
-        order: str | None = None,
-        mainlabel: str | None = None,
+        self, conditions: list[str], printouts: list[str] | None = None, **params: Any
     ) -> dict[str, Any]:
-        """Execute a semantic query using structured parameters.
-
-        This is a convenience method that builds the query string from structured parameters.
-
-        Args:
-            conditions: List of query conditions (e.g., ["[[Category:Person]]", "[[Age::>25]]"]).
-            printouts: List of properties to include in results (e.g., ["?Name", "?Age"]).
-            limit: Maximum number of results.
-            offset: Offset for pagination.
-            sort: Property to sort by.
-            order: Sort order ('asc' or 'desc').
-            mainlabel: Label for the main result column.
-
-        Returns:
-            The query results as a dictionary.
-
-        Raises:
-            SMWValidationError: If the parameters are invalid.
-            SMWAPIError: If the API request fails.
-        """
+        """Execute a semantic query using structured parameters."""
+        warnings.warn(
+            "The 'query_pages' method is deprecated.", DeprecationWarning, stacklevel=2
+        )
         if not conditions:
             raise SMWValidationError("At least one condition is required")
-
-        # Build query string
         query_parts = conditions.copy()
-
         if printouts:
             query_parts.extend(printouts)
-
-        query = "|".join(query_parts)
-
-        # Prepare additional parameters
-        params: dict[str, Any] = {}
-        if limit is not None:
-            params["limit"] = limit
-        if offset is not None:
-            params["offset"] = offset
-        if sort is not None:
-            params["sort"] = sort
-        if order is not None:
-            if order.lower() not in ("asc", "desc"):
-                raise SMWValidationError("Order must be 'asc' or 'desc'")
-            params["order"] = order.lower()
-        if mainlabel is not None:
-            params["mainlabel"] = mainlabel
-
-        return self.ask(query, **params)
+        return self.query("|".join(query_parts), **params)
 
     def query_concept(
-        self,
-        concept: str,
-        printouts: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
+        self, concept: str, printouts: list[str] | None = None, **params: Any
     ) -> dict[str, Any]:
-        """Query pages belonging to a specific concept.
-
-        Args:
-            concept: The concept name (e.g., "Important People").
-            printouts: List of properties to include in results. Can be either:
-                - Plain property names: ["Name", "Age", "Homepage URL"]
-                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
-                Both formats are automatically handled.
-            limit: Maximum number of results.
-            offset: Offset for pagination.
-
-        Returns:
-            The query results as a dictionary.
-        """
-        conditions = [f"[[Concept:{concept}]]"]
+        """Query pages belonging to a specific concept."""
+        warnings.warn(
+            "The 'query_concept' method is deprecated.", DeprecationWarning, stacklevel=2
+        )
         return self.query_pages(
-            conditions=conditions,
-            printouts=self._format_printouts(printouts),
-            limit=limit,
-            offset=offset,
+            [f"[[Concept:{concept}]]"], self._format_printouts(printouts), **params
         )
 
     def query_category(
-        self,
-        category: str,
-        printouts: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
+        self, category: str, printouts: list[str] | None = None, **params: Any
     ) -> dict[str, Any]:
-        """Query pages in a specific category.
-
-        Args:
-            category: The category name (e.g., "People").
-            printouts: List of properties to include in results. Can be either:
-                - Plain property names: ["Name", "Age", "Homepage URL"]
-                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
-                Both formats are automatically handled.
-            limit: Maximum number of results.
-            offset: Offset for pagination.
-
-        Returns:
-            The query results as a dictionary.
-        """
-        conditions = [f"[[Category:{category}]]"]
+        """Query pages in a specific category."""
+        warnings.warn(
+            "The 'query_category' method is deprecated.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.query_pages(
-            conditions=conditions,
-            printouts=self._format_printouts(printouts),
-            limit=limit,
-            offset=offset,
+            [f"[[Category:{category}]]"], self._format_printouts(printouts), **params
         )
 
     def query_property_value(
         self,
         property_name: str,
-        value: str | int | float,
+        value: Any,
         operator: str = "::",
         printouts: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
+        **params: Any,
     ) -> dict[str, Any]:
-        """Query pages with a specific property value.
-
-        Args:
-            property_name: The property name.
-            value: The property value to search for.
-            operator: The comparison operator ("::", "::<", "::>", "::!", etc.).
-            printouts: List of properties to include in results. Can be either:
-                - Plain property names: ["Name", "Age", "Homepage URL"]
-                - Pre-formatted printouts: ["?Name", "?Age", "?Homepage URL"]
-                Both formats are automatically handled.
-            limit: Maximum number of results.
-            offset: Offset for pagination.
-
-        Returns:
-            The query results as a dictionary.
-        """
-        conditions = [f"[[{property_name}{operator}{value}]]"]
+        """Query pages with a specific property value."""
+        warnings.warn(
+            "The 'query_property_value' method is deprecated.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.query_pages(
-            conditions=conditions,
-            printouts=self._format_printouts(printouts),
-            limit=limit,
-            offset=offset,
+            [f"[[{property_name}{operator}{value}]]"],
+            self._format_printouts(printouts),
+            **params,
         )
 
     def query_dict(
-        self,
-        query_conditions: dict[str, Any],
-        printouts: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
-        sort: str | None = None,
-        order: str | None = None,
-        mainlabel: str | None = None,
+        self, query_conditions: dict[str, Any], printouts: list[str] | None = None, **params: Any
     ) -> dict[str, Any]:
-        """Execute a semantic query using a dictionary of conditions.
-
-        This method builds a query from a dictionary, providing a structured way to
-        define complex queries.
-
-        Args:
-            query_conditions: A dictionary defining the query conditions.
-                It can contain the following keys:
-                - 'categories': A list of category names.
-                - 'concepts': A list of concept names.
-                - 'properties': A dictionary of properties, where the key is the
-                  property name and the value is either a string (for equality '::')
-                  or a dictionary with 'value' and 'operator' keys.
-            printouts: List of properties to include in results.
-            limit: Maximum number of results.
-            offset: Offset for pagination.
-            sort: Property to sort by.
-            order: Sort order ('asc' or 'desc').
-            mainlabel: Label for the main result column.
-
-        Returns:
-            The query results as a dictionary.
-
-        Raises:
-            SMWValidationError: If the query_conditions dictionary is invalid.
-        """
-        conditions: list[str] = []
-
-        if "categories" in query_conditions:
-            categories = query_conditions["categories"]
-            if isinstance(categories, list):
-                for category in categories:
-                    conditions.append(f"[[Category:{category}]]")
-            else:
-                raise SMWValidationError("'categories' must be a list of strings.")
-
-        if "concepts" in query_conditions:
-            concepts = query_conditions["concepts"]
-            if isinstance(concepts, list):
-                for concept in concepts:
-                    conditions.append(f"[[Concept:{concept}]]")
-            else:
-                raise SMWValidationError("'concepts' must be a list of strings.")
-
-        if "properties" in query_conditions:
-            properties = query_conditions["properties"]
-            if isinstance(properties, dict):
-                for prop, value_or_dict in properties.items():
-                    if isinstance(value_or_dict, dict):
-                        operator = value_or_dict.get("operator", "::")
-                        value = value_or_dict.get("value")
-                        if value is None:
-                            raise SMWValidationError(f"Property '{prop}' dictionary must have a 'value' key.")
-                        conditions.append(f"[[{prop}{operator}{value}]]")
-                    else:
-                        conditions.append(f"[[{prop}::{value_or_dict}]]")
-            else:
-                raise SMWValidationError("'properties' must be a dictionary.")
-
-        if not conditions:
-            raise SMWValidationError("The query_conditions dictionary resulted in no conditions.")
-
-        return self.query_pages(
-            conditions=conditions,
-            printouts=self._format_printouts(printouts),
-            limit=limit,
-            offset=offset,
-            sort=sort,
-            order=order,
-            mainlabel=mainlabel,
+        """Execute a semantic query using a dictionary of conditions."""
+        warnings.warn(
+            "The 'query_dict' method is deprecated.", DeprecationWarning, stacklevel=2
         )
-
-    @staticmethod
-    def build_conditions(conditions: list[str]) -> list[str]:
-        """Build conditions list for query_pages method.
-
-        Args:
-            conditions: List of condition strings (without [[ ]] brackets)
-
-        Returns:
-            List of formatted conditions with [[ ]] brackets
-
-        Example:
-            >>> AskEndpoint.build_conditions(["Category:Software", "License::GPL"])
-            ['[[Category:Software]]', '[[License::GPL]]']
-        """
-        return [f"[[{condition}]]" for condition in conditions]
-
-    @staticmethod
-    def build_printouts(printouts: list[str]) -> list[str]:
-        """Build printouts list for query_pages method.
-
-        Args:
-            printouts: List of property names (without ? prefix)
-
-        Returns:
-            List of formatted printouts with ? prefix
-
-        Example:
-            >>> AskEndpoint.build_printouts(["Name", "License", "Homepage URL"])
-            ['?Name', '?License', '?Homepage URL']
-        """
-        return [f"?{printout}" for printout in printouts]
+        conditions = []
+        if "categories" in query_conditions:
+            if not isinstance(query_conditions["categories"], list):
+                raise SMWValidationError("'categories' must be a list of strings.")
+            for category in query_conditions["categories"]:
+                conditions.append(f"[[Category:{category}]]")
+        if "concepts" in query_conditions:
+            if not isinstance(query_conditions["concepts"], list):
+                raise SMWValidationError("'concepts' must be a list of strings.")
+            for concept in query_conditions["concepts"]:
+                conditions.append(f"[[Concept:{concept}]]")
+        if "properties" in query_conditions:
+            if not isinstance(query_conditions["properties"], dict):
+                raise SMWValidationError("'properties' must be a dictionary.")
+            for prop, value_or_dict in query_conditions["properties"].items():
+                if isinstance(value_or_dict, dict):
+                    operator = value_or_dict.get("operator", "::")
+                    value = value_or_dict.get("value")
+                    if value is None:
+                        raise SMWValidationError(f"Property '{prop}' dictionary must have a 'value' key.")
+                    conditions.append(f"[[{prop}{operator}{value}]]")
+                else:
+                    conditions.append(f"[[{prop}::{value_or_dict}]]")
+        return self.query_pages(conditions, self._format_printouts(printouts), **params)
