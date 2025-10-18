@@ -75,13 +75,9 @@ class AskEndpoint(APIEndpoint):
         )
         return self.query(query, **params)
 
-    def query_pages(
-        self, conditions: list[str], printouts: list[str] | None = None, **params: Any
-    ) -> dict[str, Any]:
+    def query_pages(self, conditions: list[str], printouts: list[str] | None = None, **params: Any) -> dict[str, Any]:
         """Execute a semantic query using structured parameters."""
-        warnings.warn(
-            "The 'query_pages' method is deprecated.", DeprecationWarning, stacklevel=2
-        )
+        warnings.warn("The 'query_pages' method is deprecated.", DeprecationWarning, stacklevel=2)
         if not conditions:
             raise SMWValidationError("At least one condition is required")
         query_parts = conditions.copy()
@@ -89,29 +85,19 @@ class AskEndpoint(APIEndpoint):
             query_parts.extend(printouts)
         return self.query("|".join(query_parts), **params)
 
-    def query_concept(
-        self, concept: str, printouts: list[str] | None = None, **params: Any
-    ) -> dict[str, Any]:
+    def query_concept(self, concept: str, printouts: list[str] | None = None, **params: Any) -> dict[str, Any]:
         """Query pages belonging to a specific concept."""
-        warnings.warn(
-            "The 'query_concept' method is deprecated.", DeprecationWarning, stacklevel=2
-        )
-        return self.query_pages(
-            [f"[[Concept:{concept}]]"], self._format_printouts(printouts), **params
-        )
+        warnings.warn("The 'query_concept' method is deprecated.", DeprecationWarning, stacklevel=2)
+        return self.query_pages([f"[[Concept:{concept}]]"], self._format_printouts(printouts), **params)
 
-    def query_category(
-        self, category: str, printouts: list[str] | None = None, **params: Any
-    ) -> dict[str, Any]:
+    def query_category(self, category: str, printouts: list[str] | None = None, **params: Any) -> dict[str, Any]:
         """Query pages in a specific category."""
         warnings.warn(
             "The 'query_category' method is deprecated.",
             DeprecationWarning,
             stacklevel=2,
         )
-        return self.query_pages(
-            [f"[[Category:{category}]]"], self._format_printouts(printouts), **params
-        )
+        return self.query_pages([f"[[Category:{category}]]"], self._format_printouts(printouts), **params)
 
     def query_property_value(
         self,
@@ -137,9 +123,7 @@ class AskEndpoint(APIEndpoint):
         self, query_conditions: dict[str, Any], printouts: list[str] | None = None, **params: Any
     ) -> dict[str, Any]:
         """Execute a semantic query using a dictionary of conditions."""
-        warnings.warn(
-            "The 'query_dict' method is deprecated.", DeprecationWarning, stacklevel=2
-        )
+        warnings.warn("The 'query_dict' method is deprecated.", DeprecationWarning, stacklevel=2)
         conditions = []
         if "categories" in query_conditions:
             if not isinstance(query_conditions["categories"], list):

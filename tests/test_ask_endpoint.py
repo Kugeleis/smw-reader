@@ -26,9 +26,7 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.execute(query="[[Category:Test]]")
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]"}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
     def test_execute_empty_query_raises_error(self, ask_endpoint):
         """Test that empty query raises validation error."""
@@ -40,9 +38,7 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.query("[[Category:Test]]")
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]"}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
     def test_query_with_parameters(self, ask_endpoint):
         """Test the query method with additional parameters."""
@@ -59,9 +55,7 @@ class TestAskEndpoint:
         query = QueryBuilder().add_conditions("Category:Test")
         result = ask_endpoint.query(query)
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]"}
-        )
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
     def test_ask_method_deprecation_warning(self, ask_endpoint):
         """Test that the ask method raises a DeprecationWarning."""
@@ -103,12 +97,7 @@ class TestQueryBuilder:
 
     def test_build_query_with_printouts(self):
         """Test building a query with printouts."""
-        query = (
-            QueryBuilder()
-            .add_conditions("Category:Test")
-            .add_printouts("Name", "Age")
-            .build()
-        )
+        query = QueryBuilder().add_conditions("Category:Test").add_printouts("Name", "Age").build()
         assert query == "[[Category:Test]]|?Name|?Age"
 
     def test_build_empty_query(self):
