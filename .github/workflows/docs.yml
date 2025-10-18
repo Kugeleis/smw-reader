@@ -21,7 +21,7 @@ jobs:
         run: pip install pdoc
 
       - name: Build docs
-        run: pdoc --html src/smw_reader -o docs/pdoc
+        run: pdoc -o docs/pdoc src/smw_reader
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
