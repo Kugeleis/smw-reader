@@ -15,19 +15,29 @@ A modular Python client library for accessing Semantic MediaWiki (SMW) API endpo
 
 ## Installation
 
+
 ```bash
-# Install from PyPI (when published)
-pip install smw-reader
+# Recommended: Install with uv (fast, modern Python package manager)
+uv pip install smw-reader
 
 # Or with optional HTTP client support
-pip install smw-reader[aiohttp]  # For async HTTP with aiohttp
-pip install smw-reader[httpx]    # For async HTTP with httpx
-pip install smw-reader[async]    # For full async support
+uv pip install 'smw-reader[aiohttp]'  # For async HTTP with aiohttp
+uv pip install 'smw-reader[httpx]'    # For async HTTP with httpx
+uv pip install 'smw-reader[async]'    # For full async support
+
+# Alternatively, use pip directly
+pip install smw-reader
+pip install 'smw-reader[aiohttp]'
+pip install 'smw-reader[httpx]'
+pip install 'smw-reader[async]'
 
 # Development installation
 git clone <repository-url>
 cd smw-reader
 uv sync
+  
+# To add dependencies during development, use:
+uv add <package>
 ```
 
 ## Quick Start
@@ -297,200 +307,12 @@ except SMWAPIError as e:
     print(f"API error: {e}")
 ```
 
-## Migration Guide
 
-### Upgrading to Enhanced Version
-
-**Good news**: No breaking changes! Your existing code will continue to work exactly as before.
-
-**Even better news**: You can now simplify ~80% of your queries by removing manual formatting:
-
-### Assessment: Should You Migrate?
-
-**✅ Migrate to Enhanced Methods if your queries use:**
-- Simple category queries: `[[Category:X]]`
-- Basic property filters: `[[Property::Value]]`
-- Standard printouts: `?Name|?License|?Version`
-- Basic sorting and limits
-
-**⚠️ Keep Traditional Methods if your queries use:**
-- Custom labels: `?Name=Title|?License=Type`
-- Property chains: `?Works on.Name|?Lives in.Population`
-- OR operations: `[[A]] OR [[B]]`
-- Parser functions or complex SMW syntax
-
-#### Before (Still Works)
-```python
-# Old way - manual formatting required
-printouts = AskEndpoint.build_printouts(["Name", "License", "Version"])
-result = ask_endpoint.query_category("Software", printouts=printouts)
-
-# Or with manual "?" prefixes
-result = ask_endpoint.query_category(
-    "Software",
-    printouts=["?Name", "?License", "?Version"]
-)
-```
-
-#### After (Recommended)
-```python
-# New way - auto-formatted, cleaner
-result = ask_endpoint.query_category(
-    "Software",
-    printouts=["Name", "License", "Version"]  # No "?" needed!
-)
-```
-
-#### Mixed Migration (Supported)
-```python
-# You can even mix formats during migration
-result = ask_endpoint.query_category(
-    "Software",
-    printouts=["Name", "?License", "Version"]  # Mixed formats work!
-)
-```
-
-### Helper Functions Still Available
-
-The `build_conditions()` and `build_printouts()` helper functions remain available for advanced use cases or if you prefer explicit formatting:
-
-```python
-# Still available if you prefer explicit control
-conditions = AskEndpoint.build_conditions(["Category:Software", "License::GPL"])
-printouts = AskEndpoint.build_printouts(["Name", "Version"])  # Optional now!
-
-result = ask_endpoint.query_pages(
-    conditions=conditions,
-    printouts=printouts  # Or just pass ["Name", "Version"] directly
-)
-```
 
 ## Development
 
-### Running Tests
-
-```bash
-# Run all tests
-uv run pytest tests/ -v
-
-# Run with coverage
-uv run pytest tests/ --cov=smw_reader
-```
-
-### Adding New Endpoints
-
-To add a new API endpoint, inherit from `APIEndpoint`:
-
-```python
-from smw_reader.interfaces import APIEndpoint
-from typing import Any, Dict
-
-class NewEndpoint(APIEndpoint):
-    @property
-    def endpoint_name(self) -> str:
-        return "new_endpoint"
-
-    def execute(self, **params: Any) -> Dict[str, Any]:
-        # Implementation here
-        return self._client.make_request("new_action", params)
-
-# Register with client
-client.register_endpoint(NewEndpoint(client))
-```
-
-## Development
-
-This project uses modern Python development tools for code quality and development workflows.
-
-### Quick Start
-
-Initialize the development environment:
-```bash
-# Using Task (recommended)
-task init
-
-# Or using uv and duty directly
-uv sync --all-extras
-python -m duty init_project
-```
-
-### Available Tasks
-
-#### Using Task (Taskfile.yaml)
-
-```bash
-# Development setup
-task install          # Install dependencies
-task install-dev      # Install development dependencies
-task init            # Initialize project for development
-
-# Code quality
-task format          # Format code with ruff
-task lint            # Run linting with ruff
-task lint-fix        # Run linting and fix issues
-task type-check      # Run type checking with mypy
-
-# Testing
-task test            # Run tests with pytest
-task test-cov        # Run tests with coverage
-task test-watch      # Run tests in watch mode
-
-# Security and dependencies
-task security        # Run security checks with bandit
-task deps-check      # Check dependencies for vulnerabilities
-
-# Build and maintenance
-task build           # Build the package
-task clean           # Clean up build artifacts
-task update          # Update dependencies
-
-# Workflows
-task check           # Run all checks (format, lint, type-check, test)
-task ci              # Run CI checks
-task dev-setup       # Complete development environment setup
-task release-check   # Run all checks before release
-```
-
-#### Using Duty directly
-
-```bash
-python -m duty format      # Format code
-python -m duty lint        # Lint code
-python -m duty test        # Run tests
-python -m duty check_all   # Run all checks
-```
-
-### Development Tools
-
-- **[uv](https://github.com/astral-sh/uv)**: Fast Python package manager
-- **[ruff](https://github.com/astral-sh/ruff)**: Fast Python linter and formatter
-- **[mypy](https://mypy-lang.org/)**: Static type checker
-- **[pytest](https://pytest.org/)**: Testing framework
-- **[duty](https://github.com/pawamoy/duty)**: Task runner for development
-- **[Task](https://taskfile.dev/)**: Task runner (optional convenience wrapper)
-- **[pre-commit](https://pre-commit.com/)**: Git hooks for code quality
-
-### Pre-commit Hooks
-
-Install pre-commit hooks to automatically run quality checks:
-```bash
-task pre-commit-install
-# Or: pre-commit install
-```
+See [docs/pdoc/DEVELOPMENT.md](docs/pdoc/DEVELOPMENT.md) for all development setup, workflow, and contributing information.
 
 ## License
 
 This project follows the guidelines specified in `AGENTS.md`.
-
-## Contributing
-
-Please follow the coding standards and architectural principles outlined in `AGENTS.md` when contributing to this project.
-
-### Development Workflow
-
-1. Set up development environment: `task dev-setup`
-2. Make your changes
-3. Run quality checks: `task check`
-4. Run tests: `task test`
-5. Commit your changes (pre-commit hooks will run automatically)
-6. Submit a pull request
