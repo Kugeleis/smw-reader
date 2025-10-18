@@ -1,20 +1,4 @@
-"""SMW Reader - A modular Python client for Semantic MediaWiki API.
-
-This package provides a clean, modular interface to the Semantic MediaWiki API
-following best practices for maintainable and extensible code.
-
-Example usage:
-    from smw_reader import SMWClient, AskEndpoint
-
-    # Create client
-    client = SMWClient("https://example.com/wiki/")
-
-    # Register and use Ask endpoint
-    ask_endpoint = AskEndpoint(client)
-    client.register_endpoint(ask_endpoint)
-
-    # Execute a query
-    results = ask_endpoint.ask("[[Category:Person]]|?Name|?Age")
+""".. include:: ../../README.md
 """
 
 from typing import Any

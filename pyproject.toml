@@ -64,6 +64,7 @@ dev = [
     "pre-commit>=4.0.0",
     "rich>=14.2.0",
     "bump-my-version>=1.2.4",
+    "pdoc>=14.4.0",
 ]
 
 # Ruff configuration
