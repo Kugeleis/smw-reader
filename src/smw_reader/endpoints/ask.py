@@ -303,9 +303,7 @@ class AskEndpoint(APIEndpoint):
                         operator = value_or_dict.get("operator", "::")
                         value = value_or_dict.get("value")
                         if value is None:
-                            raise SMWValidationError(
-                                f"Property '{prop}' dictionary must have a 'value' key."
-                            )
+                            raise SMWValidationError(f"Property '{prop}' dictionary must have a 'value' key.")
                         conditions.append(f"[[{prop}{operator}{value}]]")
                     else:
                         conditions.append(f"[[{prop}::{value_or_dict}]]")
@@ -313,9 +311,7 @@ class AskEndpoint(APIEndpoint):
                 raise SMWValidationError("'properties' must be a dictionary.")
 
         if not conditions:
-            raise SMWValidationError(
-                "The query_conditions dictionary resulted in no conditions."
-            )
+            raise SMWValidationError("The query_conditions dictionary resulted in no conditions.")
 
         return self.query_pages(
             conditions=conditions,
