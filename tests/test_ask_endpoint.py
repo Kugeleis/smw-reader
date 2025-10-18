@@ -311,15 +311,92 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 5})
         assert result == mock_response
 
-        # Reset the mock for the second test
-        ask_endpoint._client.make_request.reset_mock()
+    def test_query_dict_with_categories(self, ask_endpoint):
+        """Test query_dict with categories."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
 
-        # Test with already formatted printouts (should work as before)
-        result = ask_endpoint.query_property_value("License", "GPL", printouts=["?Name", "?Homepage URL"], limit=5)
+        query_conditions = {"categories": ["Test", "Software"]}
+        result = ask_endpoint.query_dict(query_conditions)
 
-        expected_query = "[[License::GPL]]|?Name|?Homepage URL"
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query, "limit": 5})
+        expected_query = "[[Category:Test]]|[[Category:Software]]"
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query})
         assert result == mock_response
+
+    def test_query_dict_with_concepts(self, ask_endpoint):
+        """Test query_dict with concepts."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        query_conditions = {"concepts": ["Important", "Open Source"]}
+        result = ask_endpoint.query_dict(query_conditions)
+
+        expected_query = "[[Concept:Important]]|[[Concept:Open Source]]"
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query})
+        assert result == mock_response
+
+    def test_query_dict_with_properties(self, ask_endpoint):
+        """Test query_dict with properties."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        query_conditions = {
+            "properties": {
+                "License": "GPL",
+                "Version": {"value": "3.0", "operator": "::>="},
+            }
+        }
+        result = ask_endpoint.query_dict(query_conditions)
+
+        expected_query = "[[License::GPL]]|[[Version::>=3.0]]"
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query})
+        assert result == mock_response
+
+    def test_query_dict_with_mixed_conditions(self, ask_endpoint):
+        """Test query_dict with a mix of categories, concepts, and properties."""
+        mock_response = {"query": {"results": {}}}
+        ask_endpoint._client.make_request.return_value = mock_response
+
+        query_conditions = {
+            "categories": ["Software"],
+            "concepts": ["Open Source"],
+            "properties": {"License": "GPL"},
+        }
+        result = ask_endpoint.query_dict(query_conditions, printouts=["Name"])
+
+        expected_query = "[[Category:Software]]|[[Concept:Open Source]]|[[License::GPL]]|?Name"
+        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": expected_query})
+        assert result == mock_response
+
+    def test_query_dict_invalid_categories(self, ask_endpoint):
+        """Test query_dict with invalid categories type."""
+        with pytest.raises(SMWValidationError) as exc_info:
+            ask_endpoint.query_dict({"categories": "Test"})
+        assert "'categories' must be a list of strings" in str(exc_info.value)
+
+    def test_query_dict_invalid_concepts(self, ask_endpoint):
+        """Test query_dict with invalid concepts type."""
+        with pytest.raises(SMWValidationError) as exc_info:
+            ask_endpoint.query_dict({"concepts": "Test"})
+        assert "'concepts' must be a list of strings" in str(exc_info.value)
+
+    def test_query_dict_invalid_properties(self, ask_endpoint):
+        """Test query_dict with invalid properties type."""
+        with pytest.raises(SMWValidationError) as exc_info:
+            ask_endpoint.query_dict({"properties": ["License::GPL"]})
+        assert "'properties' must be a dictionary" in str(exc_info.value)
+
+    def test_query_dict_invalid_property_value(self, ask_endpoint):
+        """Test query_dict with missing 'value' in property dict."""
+        with pytest.raises(SMWValidationError) as exc_info:
+            ask_endpoint.query_dict({"properties": {"License": {"operator": "::"}}})
+        assert "Property 'License' dictionary must have a 'value' key" in str(exc_info.value)
+
+    def test_query_dict_empty_conditions(self, ask_endpoint):
+        """Test query_dict with an empty conditions dictionary."""
+        with pytest.raises(SMWValidationError) as exc_info:
+            ask_endpoint.query_dict({})
+        assert "The query_conditions dictionary resulted in no conditions" in str(exc_info.value)
 
     def test_query_category_with_auto_format_printouts(self, ask_endpoint):
         """Test query_category with automatic printout formatting."""
