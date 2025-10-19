@@ -20,26 +20,26 @@ def query_dict(
 ### `query_conditions` Dictionary Structure:
 
 - **`categories`**: A list of category names to include in the query.
-  - Example: `["FRITZ!Box-Family"]`
+  - Example: `["Free-Software"]`
 - **`concepts`**: A list of concept names.
   - Example: `["Users"]`
 - **`properties`**: A dictionary where keys are property names and values define the condition.
-  - **Simple equality**: `{"Intro-Date": "2020-10-10"}`
-  - **With operator**: `{"Intro-Date": {"value": ">2020-10-10", "operator": "::"}}`
+  - **Simple equality**: `{"Modification date": "2020-10-10"}`
+  - **With operator**: `{"Modification date": {"value": ">2020-10-10", "operator": "::"}}`
 
 ### Example:
 
 ```python
 query_conditions = {
-    "categories": ["FRITZ!Box-Family"],
+    "categories": ["Free-Software"],
     "properties": {
-        "Intro-Date": {"value": "2020-10-10", "operator": "::>"},
+        "Modification date": {"value": "2020-10-10", "operator": "::>"},
     },
 }
 ask_endpoint.query_dict(query_conditions)
 ```
 
-This generates the SMW query: `[[Category:FRITZ!Box-Family]][[Intro-Date::>2020-10-10]]`
+This generates the SMW query: `[[Category:Free-Software]][[Modification date::>2020-10-10]]`
 
 ## Existing `query_*` Methods
 
@@ -53,8 +53,8 @@ Builds a query from a list of raw condition strings.
 
 ```python
 ask_endpoint.query_pages(
-    conditions=["[[Category:FRITZ!Box-Family]]", "[[Intro-Date::>2020-10-10]]"],
-    printouts=["?Intro-Date"]
+    conditions=["[[Category:Free-Software]]", "[[Modification date::>2020-10-10]]"],
+    printouts=["?Modification date"]
 )
 ```
 
@@ -66,8 +66,8 @@ Queries for pages within a specific category.
 
 ```python
 ask_endpoint.query_category(
-    category="FRITZ!Box-Family",
-    printouts=["?Intro-Date"]
+    category="Free-Software",
+    printouts=["?Modification date"]
 )
 ```
 
@@ -92,9 +92,9 @@ Queries for pages where a property matches a specific value, with an optional op
 
 ```python
 ask_endpoint.query_property_value(
-    property_name="Intro-Date",
+    property_name="Modification date",
     value="2020-10-10",
     operator="::>",
-    printouts=["?Intro-Date"]
+    printouts=["?Modification date"]
 )
 ```
