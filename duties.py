@@ -41,19 +41,19 @@ DOCS_PATH = PROJECT_ROOT / "docs"
 @duty
 def format(ctx) -> None:
     """Format code with ruff."""
-    ctx.run("ruff format .", title="Formatting code")
+    ctx.run("uv run ruff format .", title="Formatting code")
 
 
 @duty
 def lint(ctx) -> None:
     """Run linting with ruff."""
-    ctx.run("ruff check .", title="Linting code")
+    ctx.run("uv run ruff check .", title="Linting code")
 
 
 @duty
 def lint_fix(ctx) -> None:
     """Run linting with ruff and fix issues automatically."""
-    ctx.run("ruff check --fix .", title="Linting and fixing code")
+    ctx.run("uv run ruff check --fix .", title="Linting and fixing code")
 
 
 @duty
@@ -65,14 +65,14 @@ def type_check(ctx) -> None:
 @duty
 def test(ctx) -> None:
     """Run tests with pytest."""
-    ctx.run("pytest", title="Running tests")
+    ctx.run("uv run pytest", title="Running tests")
 
 
 @duty
 def test_cov(ctx) -> None:
     """Run tests with coverage."""
     ctx.run(
-        "pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing",
+        "uv run pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing",
         title="Running tests with coverage",
     )
 
@@ -80,7 +80,7 @@ def test_cov(ctx) -> None:
 @duty
 def test_watch(ctx) -> None:
     """Run tests in watch mode."""
-    ctx.run("pytest-watch", title="Running tests in watch mode")
+    ctx.run("uv run pytest-watch", title="Running tests in watch mode")
 
 
 @duty
@@ -105,7 +105,7 @@ def test_versions(ctx) -> None:
 @duty
 def security(ctx) -> None:
     """Run security checks with bandit."""
-    ctx.run("bandit -r src/", title="Running security checks")
+    ctx.run("uv run bandit -r src/", title="Running security checks")
 
 
 @duty
@@ -203,12 +203,6 @@ def update_deps(ctx) -> None:
 
 
 @duty
-def example(ctx) -> None:
-    """Run the example script."""
-    ctx.run("python example.py", title="Running example script")
-
-
-@duty
 def profile(ctx) -> None:
     """Profile the code."""
     ctx.run("python -m cProfile -o profile.stats example.py", title="Profiling code")
@@ -222,7 +216,7 @@ def benchmark(ctx) -> None:
     """Run benchmarks if available."""
     benchmark_files = list(TESTS_PATH.glob("**/bench_*.py"))
     if benchmark_files:
-        ctx.run("pytest -v -k bench", title="Running benchmarks")
+        ctx.run("uv run pytest -v -k bench", title="Running benchmarks")
     else:
         print("No benchmark files found (bench_*.py in tests/).")
 
