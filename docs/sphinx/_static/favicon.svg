@@ -1,4 +1,6 @@
-<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
-  <path d="M102.612 195.224c-28.26 0-51.18-22.92-51.18-51.18s22.92-51.18 51.18-51.18 51.18 22.92 51.18 51.18-22.92 51.18-51.18 51.18zm0-87.84c-20.21 0-36.66 16.45-36.66 36.66s16.45 36.66 36.66 36.66 36.66-16.45 36.66-36.66-16.45-36.66-36.66-36.66zm102.83 87.84l-40.32-40.32c10.46-16.03 16.59-35.1 16.59-55.57 0-48.4-39.3-87.7-87.7-87.7-48.4 0-87.7 39.3-87.7 87.7s39.3 87.7 87.7 87.7c19.43 0 37.5-6.3 52.8-16.6l40.42 40.42c3.42 3.42 7.9 5.13 12.37 5.13s8.95-1.71 12.37-5.13c6.83-6.84 6.83-17.9 0-24.74z" fill="#3B82F6"/>
-  <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="80" fill="#3B82F6" font-weight="bold">W</text>
+<svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="12" fill="#1E3A8A"/>
+  <path d="M32 20L24 28H40L32 20Z" fill="#60A5FA"/>
+  <path d="M32 44L40 36H24L32 44Z" fill="#3B82F6"/>
+  <circle cx="32" cy="32" r="4" fill="#BFDBFE"/>
 </svg>
