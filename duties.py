@@ -183,14 +183,17 @@ def pre_commit_install(ctx) -> None:
 
 @duty
 def docs_build(ctx) -> None:
-    """Build documentation with pdoc."""
-    ctx.run("pdoc --html src/smw_reader -o docs/pdoc", title="Building documentation")
+    """Build documentation with Sphinx (MyST)."""
+    ctx.run("sphinx-build -b html docs/sphinx docs/sphinx/_build", title="Building Sphinx documentation")
 
 
 @duty
 def docs_serve(ctx) -> None:
-    """Serve documentation with pdoc."""
-    ctx.run("pdoc --http localhost:8080 src/smw_reader", title="Serving documentation")
+    """Serve documentation with sphinx-autobuild (live reload)."""
+    ctx.run(
+        "sphinx-autobuild docs/sphinx docs/sphinx/_build --open-browser --port 8000",
+        title="Serving Sphinx documentation with live reload",
+    )
 
 
 @duty
