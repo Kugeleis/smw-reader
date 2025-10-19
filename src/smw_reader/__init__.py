@@ -1,4 +1,4 @@
-""".. include:: ../../README.md"""
+"""A modular Python client library for accessing Semantic MediaWiki (SMW) API endpoints."""
 
 import importlib.metadata
 from typing import Any

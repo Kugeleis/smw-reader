@@ -25,4 +25,4 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.svg"
 
 # MyST settings
-myst_enable_extensions = ["deflist", "html_admonition", "html_image"]
+myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence"]
