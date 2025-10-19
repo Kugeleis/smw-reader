@@ -56,7 +56,7 @@ tasks:
   test-cov:
     desc: Run tests with coverage
     cmds:
-      - "{{.PYTHON}} -m duty test_cov"
+      - "uv run pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing --cov-report=term -s"
 
   test-watch:
     desc: Run tests in watch mode
@@ -162,7 +162,7 @@ tasks:
       - task: pre-commit-install
       - echo "Development environment ready!"
 
-  release-check:
+  release-.check:
     desc: Run all checks before release
     cmds:
       - task: clean

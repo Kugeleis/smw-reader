@@ -71,10 +71,7 @@ def test(ctx) -> None:
 @duty
 def test_cov(ctx) -> None:
     """Run tests with coverage."""
-    ctx.run(
-        "uv run pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing",
-        title="Running tests with coverage",
-    )
+    ctx.run("uv run pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing --cov-report=term -s")
 
 
 @duty
