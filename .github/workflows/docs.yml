@@ -17,16 +17,16 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install pdoc
-        run: pip install pdoc
+      - name: Install dependencies
+        run: pip install mkdocs mkdocs-material "mkdocstrings[python]"
 
       - name: Build docs
-        run: pdoc -o docs/pdoc src/smw_reader
+        run: mkdocs build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/
+          path: site/
 
   deploy-docs:
     needs: build-and-deploy-docs
