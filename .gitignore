@@ -10,3 +10,28 @@ wheels/
 .venv
 .coverage
 docs/pdoc/
+
+# Tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.cache/
+
+# Test / coverage reports
+htmlcov/
+coverage.xml
+
+# Build outputs
+site/
+
+# Virtualenv / wheel metadata
+pip-wheel-metadata/
+*.egg
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+
+# Misc
+*.log
