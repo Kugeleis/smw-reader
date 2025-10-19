@@ -128,7 +128,6 @@ ignore_errors = true
 
 # Bump My Version configuration
 [tool.bumpversion]
-current_version = "0.6.7"
 parse           = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize       = ["{major}.{minor}.{patch}"]
 search          = "{current_version}"
@@ -141,11 +140,6 @@ commit_args     = "--no-verify"
 values = ["alpha", "beta", "rc"]
 
 # Files to update when version changes
-[[tool.bumpversion.files]]
-filename = "src/smw_reader/__init__.py"
-search   = "__version__ = \"{current_version}\""
-replace  = "__version__ = \"{new_version}\""
-
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
 search   = "version = \"{current_version}\""

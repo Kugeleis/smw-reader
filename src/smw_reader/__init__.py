@@ -1,5 +1,6 @@
 """.. include:: ../../README.md"""
 
+import importlib.metadata
 from typing import Any
 
 from .client import SMWClient
@@ -27,7 +28,7 @@ __all__ = [
     "RequestsHTTPClient",
 ]
 
-__version__ = "0.6.7"
+__version__ = importlib.metadata.version("smw-reader")
 
 
 def create_client(base_url: str, **kwargs: Any) -> SMWClient:
