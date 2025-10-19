@@ -64,10 +64,10 @@ dev = [
     "pre-commit>=4.0.0",
     "rich>=14.2.0",
     "bump-my-version>=1.2.4",
-    "pdoc>=14.4.0",
-    "mkdocs>=1.6.1",
-    "mkdocs-material>=9.6.22",
-    "mkdocstrings[python]>=0.30.1",
+    "sphinx>=6.2.0",
+    "myst-parser>=0.20.0",
+    "sphinx-autodoc-typehints>=1.21.0",
+    "sphinx-rtd-theme>=1.2.0",
 ]
 
 # Ruff configuration

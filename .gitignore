@@ -28,6 +28,17 @@ site/
 pip-wheel-metadata/
 *.egg
 
+# Environment files
+.env
+
+# Alternate virtualenv folders
+venv/
+env/
+env.bak/
+
+# Pipenv
+Pipfile.lock
+
 # Editor / OS files
 .vscode/
 .idea/
@@ -35,3 +46,7 @@ pip-wheel-metadata/
 
 # Misc
 *.log
+
+# Sphinx build output and doctrees
+docs/sphinx/_build/
+docs/sphinx/.doctrees/

@@ -311,7 +311,7 @@ except SMWAPIError as e:
 
 ## Development
 
-See [docs/pdoc/DEVELOPMENT.md](docs/pdoc/DEVELOPMENT.md) for all development setup, workflow, and contributing information.
+See the project's development guide in the documentation (Development) for setup, workflow, and contributing information.
 
 ## License
 
