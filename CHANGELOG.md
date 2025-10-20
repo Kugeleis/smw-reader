@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] (2025-10-20)
+## Unreleased (2025-10-20)
 
 ### Fixes
 
