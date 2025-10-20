@@ -1,6 +1,6 @@
 [project]
 name = "smw-reader"
-version = "0.6.26"
+version = "0.7.0"
 description = "A modular Python client library for accessing Semantic MediaWiki (SMW) API endpoints"
 readme = "README.md"
 authors = [
@@ -150,11 +150,12 @@ replace  = "version = \"{new_version}\""
 
 [dependency-groups]
 dev = [
+    "bump-my-version>=1.2.4",
     "duty>=1.6.3",
+    "generate-changelog>=0.16.0",
     "ipykernel>=7.0.1",
     "mypy>=1.18.2",
     "pytest>=8.4.2",
     "pytest-cov>=7.0.0",
     "ruff>=0.14.1",
 ]
-
