@@ -2,6 +2,18 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.7.2 (2025-10-20)
+
+### Fixes
+
+- Fix: drop old file.
+
+### Other
+
+- Bump version: 0.7.1 → 0.7.2.
+
+- Bump version: 0.7.0 → 0.7.1.
+
 ## v0.7.1 (2025-10-20)
 
 ### Fixes
