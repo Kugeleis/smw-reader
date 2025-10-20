@@ -1,6 +1,6 @@
 [project]
 name = "smw-reader"
-version = "0.7.1"
+version = "0.7.2"
 description = "A modular Python client library for accessing Semantic MediaWiki (SMW) API endpoints"
 readme = "README.md"
 authors = [
