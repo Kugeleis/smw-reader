@@ -10,6 +10,7 @@ title: Home
 :maxdepth: 2
 
 api
+EXAMPLES
 SMW_SYNTAX
 changelog
 DEVELOPMENT
