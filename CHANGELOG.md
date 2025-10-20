@@ -1,6 +1,18 @@
 # Changelog
 
-## [Unreleased]
+## Unreleased (2025-10-20)
+
+### Fixes
+
+- Fix: align bump-my-version and generate-changelog configurations.
+    
+### Other
+
+- Build: stop tracking uv.lock.
+    
+- Build: ignore uv.lock.
+    
+## v0.6.22 (2025-10-20)
 
 ### Fixes
 
@@ -8,6 +20,8 @@
     
 ### Other
 
+- Bump version: 0.6.21 → 0.6.22.
+    
 - Chore: configure bump-my-version to trigger generate-changelog.
     
 ## v0.6.19 (2025-10-20)
