@@ -1,18 +1,27 @@
 # Changelog
 
-## [Unreleased]
+## [Unreleased] (2025-10-20)
 
-### Added
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
+### Fixes
 
-## [0.6.19] - 2025-10-20
-
+- Fix: taskfile version commands.
+    
 ### Other
 
+- Chore: configure bump-my-version to trigger generate-changelog.
+    
+## v0.6.19 (2025-10-20)
+
+### Fixes
+
+- Fix: update changelog and release tasks.
+    
+- Fix: add changelog to bump.
+    
+### Other
+
+- Bump version: 0.6.18 → 0.6.19.
+    
 - Bump version: 0.6.16 → 0.6.17.
     
 ## v0.6.17 (2025-10-20)

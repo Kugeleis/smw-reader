@@ -1,6 +1,6 @@
 [project]
 name = "smw-reader"
-version = "0.6.19"
+version = "0.6.21"
 description = "A modular Python client library for accessing Semantic MediaWiki (SMW) API endpoints"
 readme = "README.md"
 authors = [
@@ -33,26 +33,7 @@ dependencies = []
 aiohttp = ["aiohttp>=3.13.0"]
 httpx   = ["httpx>=0.28.1"]
 async   = ["aiohttp>=3.13.0", "httpx>=0.28.1", "pytest-asyncio>=0.24.0"]
-dev = [
-    "duty>=1.6.3",
-    "pytest>=8.4.2",
-    "pytest-cov>=5.0.0",
-    "pytest-asyncio>=0.24.0",
-    "pytest-watch>=4.2.0",
-    "mypy>=1.11.0",
-    "ruff>=0.6.0",
-    "bandit>=1.7.0",
-    "pip-audit>=2.7.0",
-    "pre-commit>=4.0.0",
-    "rich>=14.2.0",
-    "bump-my-version>=1.2.4",
-    "sphinx>=6.2.0",
-    "myst-parser>=0.20.0",
-    "sphinx-autodoc-typehints>=1.21.0",
-    "sphinx-rtd-theme>=1.2.0",
-    "sphinx-autobuild>=2024.10.3",
-    "generate-changelog>=0.11.0",
-]
+
 
 # URLs section for better PyPI presentation
 [project.urls]
@@ -159,3 +140,26 @@ replace = """## [Unreleased]
 ### Security
 
 ## [{new_version}] - {now:%Y-%m-%d}"""
+
+[dependency-groups]
+dev = [
+    "duty>=1.6.3",
+    "pytest>=8.4.2",
+    "pytest-cov>=5.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-watch>=4.2.0",
+    "mypy>=1.11.0",
+    "ruff>=0.6.0",
+    "bandit>=1.7.0",
+    "pip-audit>=2.7.0",
+    "pre-commit>=4.0.0",
+    "rich>=14.2.0",
+    "bump-my-version>=1.2.4",
+    "sphinx>=6.2.0",
+    "myst-parser>=0.20.0",
+    "sphinx-autodoc-typehints>=1.21.0",
+    "sphinx-rtd-theme>=1.2.0",
+    "sphinx-autobuild>=2024.10.3",
+    "generate-changelog>=0.11.0",
+]
+
