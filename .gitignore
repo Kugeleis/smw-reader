@@ -50,3 +50,7 @@ Pipfile.lock
 # Sphinx build output and doctrees
 docs/sphinx/_build/
 docs/sphinx/.doctrees/
+
+# uv
+.uv-seed.json
+uv.lock
