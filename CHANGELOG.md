@@ -2,6 +2,18 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.6.25 (2025-10-20)
+
+### Fixes
+
+- Fix: QueryBuilder import.
+    
+### Other
+
+- Bump version: 0.6.24 → 0.6.25.
+    
+- Bump version: 0.6.23 → 0.6.24.
+    
 ## v0.6.24 (2025-10-20)
 
 ### Fixes
