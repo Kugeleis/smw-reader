@@ -30,31 +30,26 @@ class TestQueryBuilder:
 
     def test_add_condition_with_dict(self):
         """Test adding a condition using a dictionary."""
-        query = QueryBuilder().add_conditions(
-            {"key": "Intro-Date", "operator": ">", "value": "2020-10-10"}
-        ).build()
+        query = QueryBuilder().add_conditions({"key": "Intro-Date", "operator": ">", "value": "2020-10-10"}).build()
         assert query == "[[Intro-Date::>2020-10-10]]"
 
     def test_add_condition_with_category_dict(self):
         """Test adding a category condition using a dictionary."""
-        query = QueryBuilder().add_conditions(
-            {"key": "Category", "value": "Test"}
-        ).build()
+        query = QueryBuilder().add_conditions({"key": "Category", "value": "Test"}).build()
         assert query == "[[Category:Test]]"
 
     def test_add_multiple_conditions(self):
         """Test adding multiple conditions."""
-        query = QueryBuilder().add_conditions(
-            "Category:Test",
-            {"key": "Intro-Date", "operator": ">", "value": "2020-10-10"}
-        ).build()
+        query = (
+            QueryBuilder()
+            .add_conditions("Category:Test", {"key": "Intro-Date", "operator": ">", "value": "2020-10-10"})
+            .build()
+        )
         assert query == "[[Category:Test]][[Intro-Date::>2020-10-10]]"
 
     def test_add_condition_with_no_operator(self):
         """Test adding a condition with no operator."""
-        query = QueryBuilder().add_conditions(
-            {"key": "Name", "value": "Test"}
-        ).build()
+        query = QueryBuilder().add_conditions({"key": "Name", "value": "Test"}).build()
         assert query == "[[Name::Test]]"
 
     def test_add_condition_invalid_dict(self):
@@ -69,19 +64,22 @@ class TestQueryBuilder:
 
     def test_complex_query(self):
         """Test a complex query with multiple conditions and printouts."""
-        query = QueryBuilder().add_conditions(
-            "Category:FRITZ!Box-Family",
-            {"key": "Intro-Date", "operator": ">", "value": "#time:2020-10-10"}
-        ).add_printouts(
-            "Name", "Age"
-        ).build()
+        query = (
+            QueryBuilder()
+            .add_conditions(
+                "Category:FRITZ!Box-Family", {"key": "Intro-Date", "operator": ">", "value": "#time:2020-10-10"}
+            )
+            .add_printouts("Name", "Age")
+            .build()
+        )
         expected = "[[Category:FRITZ!Box-Family]][[Intro-Date::>#time:2020-10-10]]|?Name|?Age"
         assert query == expected
 
     def test_build_query_with_multiple_dict_conditions(self):
         """Test building a query with multiple dictionary conditions."""
-        query = QueryBuilder().add_conditions(
-            {"key": "Category", "value": "Test"},
-            {"key": "Status", "value": "Active"}
-        ).build()
+        query = (
+            QueryBuilder()
+            .add_conditions({"key": "Category", "value": "Test"}, {"key": "Status", "value": "Active"})
+            .build()
+        )
         assert query == "[[Category:Test]][[Status::Active]]"

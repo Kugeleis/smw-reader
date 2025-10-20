@@ -26,7 +26,10 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pandas>=2.3.3",
+    "pyyaml>=6.0.3",
+]
 
 # Optional dependencies for different HTTP clients
 [project.optional-dependencies]
@@ -144,4 +147,14 @@ values = ["alpha", "beta", "rc"]
 filename = "pyproject.toml"
 search   = "version = \"{current_version}\""
 replace  = "version = \"{new_version}\""
+
+[dependency-groups]
+dev = [
+    "duty>=1.6.3",
+    "ipykernel>=7.0.1",
+    "mypy>=1.18.2",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.14.1",
+]
 

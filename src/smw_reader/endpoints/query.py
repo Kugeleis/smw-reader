@@ -1,6 +1,6 @@
 """Query builder for SMW queries."""
 
-from typing import Self, Union
+from typing import Self
 
 
 class QueryBuilder:
@@ -40,7 +40,7 @@ class QueryBuilder:
         """
         return self.build()
 
-    def add_conditions(self, *conditions: Union[str, dict[str, str]]) -> Self:
+    def add_conditions(self, *conditions: str | dict[str, str]) -> Self:
         """Add one or more conditions to the query.
 
         Args:
