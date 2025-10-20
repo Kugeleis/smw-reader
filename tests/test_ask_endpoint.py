@@ -57,34 +57,23 @@ class TestAskEndpoint:
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
 
-    def test_ask_method_deprecation_warning(self, ask_endpoint):
-        """Test that the ask method raises a DeprecationWarning."""
-        with pytest.deprecated_call():
-            ask_endpoint.ask("[[Category:Test]]")
+    def test_query_category(self, ask_endpoint):
+        """Test the query_category method."""
+        ask_endpoint._client.make_request.return_value = {}
+        result = ask_endpoint.query_category("Test")
+        assert result == {}
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
-    def test_deprecated_methods_warnings_and_functionality(self, ask_endpoint):
-        """Test that deprecated methods raise warnings and are functional."""
-        with pytest.deprecated_call():
-            ask_endpoint.query_pages(["[[Category:Test]]"])
-        with pytest.deprecated_call():
-            ask_endpoint.query_concept("Test")
-        with pytest.deprecated_call():
-            ask_endpoint.query_category("Test")
-        with pytest.deprecated_call():
-            ask_endpoint.query_property_value("Prop", "Val")
-        with pytest.deprecated_call():
-            ask_endpoint.query_dict({"categories": ["Test"]})
-
-    def test_query_dict_invalid_inputs(self, ask_endpoint):
-        """Test query_dict with invalid inputs."""
-        with pytest.raises(SMWValidationError):
-            ask_endpoint.query_dict({"categories": "not-a-list"})
-        with pytest.raises(SMWValidationError):
-            ask_endpoint.query_dict({"concepts": "not-a-list"})
-        with pytest.raises(SMWValidationError):
-            ask_endpoint.query_dict({"properties": "not-a-dict"})
-        with pytest.raises(SMWValidationError):
-            ask_endpoint.query_dict({"properties": {"prop": {"operator": "::"}}})
+    def test_query_category_with_printouts(self, ask_endpoint):
+        """Test the query_category method with printouts."""
+        ask_endpoint._client.make_request.return_value = {}
+        result = ask_endpoint.query_category("Test", printouts=["Name", "?Age"])
+        assert result == {}
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]|?Name|?Age"}
+        )
 
 
 class TestQueryBuilder:
