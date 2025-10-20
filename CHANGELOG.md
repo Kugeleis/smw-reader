@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (2025-10-20)
+## [Unreleased]
 
 ## v0.6.14 (2025-10-20)
 
