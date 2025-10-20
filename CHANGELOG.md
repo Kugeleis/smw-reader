@@ -2,6 +2,17 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.7.4 (2025-10-20)
+
+### Other
+
+- Bump version: 0.7.3 → 0.7.4.
+
+- Chore: uodate changelog.
+
+- Docs: extend QueryBuilder usage examples.
+
+  The usage examples for the QueryBuilder were a bit thin. This change extends the usage examples with more advanced cases. It now shows valid comparison operators for dates and select examples valid for the smw ask query syntax.
 ## v0.7.3 (2025-10-20)
 
 ### Other
