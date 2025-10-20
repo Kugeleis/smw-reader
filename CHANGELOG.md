@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [0.6.16] - 2025-10-20
+
 ## v0.6.14 (2025-10-20)
 
 ### Fixes
