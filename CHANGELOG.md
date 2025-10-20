@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+## [0.6.19] - 2025-10-20
+
 ### Other
 
 - Bump version: 0.6.16 → 0.6.17.
