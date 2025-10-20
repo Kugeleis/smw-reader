@@ -1,0 +1,22 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Triggers when a tag like v1.0.0 is pushed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create a GitHub Release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create a GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+          tag_name: "${{ github.ref_name }} "
