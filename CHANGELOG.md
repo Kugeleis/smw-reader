@@ -2,15 +2,25 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.6.20 (2025-10-20)
+
 ### Fixes
 
 - Fix: align bump-my-version and generate-changelog configurations.
     
 ### Other
 
+- Bump version: 0.6.19 → 0.6.20.
+    
 - Build: stop tracking uv.lock.
     
 - Build: ignore uv.lock.
+    
+### Updates
+
+- Refactor: use post-commit hook for changelog generation.
+    
+- Refactor: simplify release process.
     
 ## v0.6.22 (2025-10-20)
 
