@@ -50,7 +50,7 @@ def test_ask_endpoint_with_missing_smw():
 
     # Should propagate the error from the client
     with pytest.raises(SMWAPIError):
-        ask_endpoint.ask("[[Category:Test]]")
+        ask_endpoint.query("[[Category:Test]]")
 
 
 if __name__ == "__main__":
