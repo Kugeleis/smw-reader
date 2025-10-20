@@ -2,6 +2,38 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.7.1 (2025-10-20)
+
+### Fixes
+
+- Fix: imports.
+
+### Other
+
+- Bump version: 0.7.0 → 0.7.1.
+
+- Bump version: 0.6.26 → 0.7.0.
+
+## v0.7.0 (2025-10-20)
+
+### Other
+
+- Bump version: 0.6.26 → 0.7.0.
+
+- Feat: add query composition.
+
+- Feat: Reimplement QueryBuilder for complex queries.
+
+  Reimplements the `QueryBuilder` to support complex queries from dictionaries.
+
+  This change restores the ability to build complex queries like `[[Intro-Date::>{{#time:2020-10-10}}]]` from a dictionary containing a key, an optional operator, and a value.
+
+  The `add_conditions` method now accepts both strings and dictionaries.
+  The `build` method has been updated to correctly join multiple conditions.
+
+  A dedicated test file for the `QueryBuilder` has been added, with comprehensive tests for the new functionality.
+- Bump version: 0.6.25 → 0.6.26.
+
 ## v0.6.26 (2025-10-20)
 
 ### Other
@@ -343,8 +375,6 @@
 
 - Fix: formatting.
 
-- Fix. formatting.
-
 ### New
 
 - Add API documentation for AskEndpoint.
@@ -364,6 +394,14 @@
   It also includes a new GitHub Action that builds the documentation and deploys it to GitHub Pages on every push to the main branch.
 
   The existing documentation has been moved to the `docs/pdoc` directory and is now included in the generated documentation. The `docs/README.md` has been updated to link to the new documentation.
+## v0.3.0 (2025-10-18)
+
+### Fixes
+
+- Fix. formatting.
+
+### Other
+
 - Bump version: 0.2.6 → 0.3.0.
 
 - Feat: Add query_dict method to AskEndpoint.
@@ -421,9 +459,13 @@
 
 ## v0.2.2 (2025-10-16)
 
-### Fixes
+### Other
 
-- Fix maintainer.
+- Bump version: 0.2.1 → 0.2.2.
+
+- Feat: add dev conainer.
+
+## v0.2.1 (2025-10-15)
 
 ### New
 
@@ -432,9 +474,35 @@
 - Add GitHub Actions workflow for Python package publishing.
 
   This workflow automates the process of uploading a Python package to PyPI when a release is created. It includes steps for building the package and publishing it securely.
+### Other
+
+- Bump version: 0.2.0 → 0.2.1.
+
+## v0.2.0 (2025-10-15)
+
+### New
+
 - Add version-test.
 
   test package against python versions
+### Other
+
+- Bump version: 0.1.2 → 0.2.0.
+
+## v0.1.2 (2025-10-15)
+
+### Fixes
+
+- Fix maintainer.
+
+### Other
+
+- Bump version: 0.1.1 → 0.1.2.
+
+## v0.1.1 (2025-10-15)
+
+### New
+
 - Add boxmatrix example.
 
 - Add testing and example usage.
@@ -442,16 +510,6 @@
 - Add development tools.
 
 ### Other
-
-- Bump version: 0.2.1 → 0.2.2.
-
-- Feat: add dev conainer.
-
-- Bump version: 0.2.0 → 0.2.1.
-
-- Bump version: 0.1.2 → 0.2.0.
-
-- Bump version: 0.1.1 → 0.1.2.
 
 - Bump version: 0.1.0 → 0.1.1.
 
