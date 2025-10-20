@@ -2,6 +2,21 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.7.3 (2025-10-20)
+
+### Other
+
+- Bump version: 0.7.2 → 0.7.3.
+
+- Feat(docs): add EXAMPLES.md to Sphinx build.
+
+  Adds a new `EXAMPLES.md` file to the Sphinx documentation, providing usage examples for the `AskEndpoint` and `QueryBuilder`.
+
+  - Creates `docs/sphinx/EXAMPLES.md` with detailed code examples.
+  - Integrates the new file into the Sphinx `toctree` in `docs/sphinx/index.md`.
+  - Verifies the documentation build to ensure the new page is included correctly.
+- Bump version: 0.7.1 → 0.7.2.
+
 ## v0.7.2 (2025-10-20)
 
 ### Fixes
