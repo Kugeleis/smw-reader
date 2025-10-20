@@ -177,24 +177,21 @@ tasks:
     cmds:
       - task: check
       - uv run bump-my-version bump patch
-      - uv lock
-      - git add pyproject.toml uv.lock CHANGELOG.md
+      - uv run generate-changelog
 
   version-minor:
     desc: Bump minor version (0.1.0 -> 0.2.0)
     cmds:
       - task: check
       - uv run bump-my-version bump minor
-      - uv lock
-      - git add pyproject.toml uv.lock CHANGELOG.md
+      - uv run generate-changelog
 
   version-major:
     desc: Bump major version (0.1.0 -> 1.0.0)
     cmds:
       - task: check
       - uv run bump-my-version bump major
-      - uv lock
-      - git add pyproject.toml uv.lock CHANGELOG.md
+      - uv run generate-changelog
 
   version-prerelease:
     desc: Bump pre-release version (e.g. 0.1.1 -> 0.1.2-alpha.0)

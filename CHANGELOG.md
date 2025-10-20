@@ -1,25 +1,33 @@
 # Changelog
 
-## [Unreleased]
+## Unreleased (2025-10-20)
 
-### Added
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
+### Other
 
-## [0.6.17] - 2025-10-20
+- Bump version: 0.6.16 → 0.6.17.
+    
+## v0.6.17 (2025-10-20)
 
-### Added
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
+### Other
 
-## [0.6.16] - 2025-10-20
+- Bump version: 0.6.16 → 0.6.17.
+    
+- Chore: update uv.lock.
+    
+## v0.6.16 (2025-10-20)
 
+### Fixes
+
+- Fix: track uv lock on bump.
+    
+- Fix: writing changelog.
+    
+### Other
+
+- Bump version: 0.6.15 → 0.6.16.
+    
+- Feat: configure changelog and release tasks.
+    
 ## v0.6.14 (2025-10-20)
 
 ### Fixes

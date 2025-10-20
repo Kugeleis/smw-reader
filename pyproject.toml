@@ -134,6 +134,7 @@ replace         = "{new_version}"
 tag             = true
 commit          = true
 commit_args     = "--no-verify"
+pre_commit_hooks = ["uv sync --upgrade", "git add uv.lock"]
 
 [tool.bumpversion.parts.pre_l]
 values = ["alpha", "beta", "rc"]
