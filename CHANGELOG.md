@@ -2,8 +2,16 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.6.24 (2025-10-20)
+
+### Fixes
+
+- Fix: tags.
+    
 ### Other
 
+- Bump version: 0.6.23 → 0.6.24.
+    
 - Bump version: 0.6.22 → 0.6.23.
     
 ## v0.6.23 (2025-10-20)
