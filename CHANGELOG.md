@@ -2,6 +2,18 @@
 
 ## Unreleased (2025-10-20)
 
+## v0.6.21 (2025-10-20)
+
+### Fixes
+
+- Fix: expose QueryBuilder.
+    
+### Other
+
+- Bump version: 0.6.20 → 0.6.21.
+    
+- Bump version: 0.6.19 → 0.6.20.
+    
 ## v0.6.20 (2025-10-20)
 
 ### Fixes
