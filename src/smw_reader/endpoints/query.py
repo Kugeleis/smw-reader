@@ -1,6 +1,6 @@
 """Query builder for SMW queries."""
 
-from typing import Self
+from typing import Self, Union
 
 
 class QueryBuilder:
@@ -25,7 +25,12 @@ class QueryBuilder:
         Returns:
             The formatted SMW query string.
         """
-        return "|".join(self.conditions + self.printouts)
+        condition_part = "".join(self.conditions)
+        printout_part = "|".join(self.printouts)
+
+        if condition_part and printout_part:
+            return f"{condition_part}|{printout_part}"
+        return condition_part or printout_part
 
     def __str__(self) -> str:
         """Return the string representation of the query.
@@ -35,16 +40,34 @@ class QueryBuilder:
         """
         return self.build()
 
-    def add_conditions(self, *conditions: str) -> Self:
+    def add_conditions(self, *conditions: Union[str, dict[str, str]]) -> Self:
         """Add one or more conditions to the query.
 
         Args:
             *conditions: A list of conditions to add.
+                Each condition can be a string or a dictionary.
+                A string is treated as a raw condition, e.g. "Category:Test".
+                A dict must contain 'key' and 'value', and optionally 'operator'.
+                e.g. {"key": "Intro-Date", "operator": ">", "value": "2020-10-10"}
 
         Returns:
             The QueryBuilder instance for method chaining.
         """
-        self.conditions.extend(f"[[{c}]]" for c in conditions)
+        for condition in conditions:
+            if isinstance(condition, str):
+                self.conditions.append(f"[[{condition}]]")
+            elif isinstance(condition, dict):
+                key = condition.get("key")
+                value = condition.get("value")
+                if not key or value is None:
+                    raise ValueError("Condition dictionary must contain 'key' and 'value'")
+
+                operator = condition.get("operator", "")
+                full_value = f"{operator}{value}"
+
+                separator = ":" if str(key).lower() == "category" else "::"
+
+                self.conditions.append(f"[[{key}{separator}{full_value}]]")
         return self
 
     def add_printouts(self, *printouts: str) -> Self:

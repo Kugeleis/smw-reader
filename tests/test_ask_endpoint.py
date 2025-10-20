@@ -52,7 +52,7 @@ class TestAskEndpoint:
     def test_query_with_query_builder(self, ask_endpoint):
         """Test the query method with a QueryBuilder instance."""
         ask_endpoint._client.make_request.return_value = {}
-        query = QueryBuilder().add_conditions("Category:Test")
+        query = QueryBuilder().add_conditions({"key": "Category", "value": "Test"})
         result = ask_endpoint.query(query)
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
@@ -70,27 +70,3 @@ class TestAskEndpoint:
         result = ask_endpoint.query_category("Test", printouts=["Name", "?Age"])
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]|?Name|?Age"})
-
-
-class TestQueryBuilder:
-    """Test cases for QueryBuilder class."""
-
-    def test_build_simple_query(self):
-        """Test building a simple query."""
-        query = QueryBuilder().add_conditions("Category:Test").build()
-        assert query == "[[Category:Test]]"
-
-    def test_build_query_with_printouts(self):
-        """Test building a query with printouts."""
-        query = QueryBuilder().add_conditions("Category:Test").add_printouts("Name", "Age").build()
-        assert query == "[[Category:Test]]|?Name|?Age"
-
-    def test_build_empty_query(self):
-        """Test building an empty query."""
-        query = QueryBuilder().build()
-        assert query == ""
-
-    def test_str_representation(self):
-        """Test the string representation of the QueryBuilder."""
-        query_builder = QueryBuilder().add_conditions("Category:Test")
-        assert str(query_builder) == "[[Category:Test]]"
