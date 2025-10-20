@@ -225,3 +225,9 @@ def init_project(ctx) -> None:
     if (PROJECT_ROOT / ".pre-commit-config.yaml").exists():
         pre_commit_install(ctx)
     print("Project initialized successfully!")
+
+
+@duty
+def changelog(ctx) -> None:
+    """Generate the changelog."""
+    ctx.run("generate-changelog", title="Generating changelog")

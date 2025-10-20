@@ -33,24 +33,6 @@ dependencies = []
 aiohttp = ["aiohttp>=3.13.0"]
 httpx   = ["httpx>=0.28.1"]
 async   = ["aiohttp>=3.13.0", "httpx>=0.28.1", "pytest-asyncio>=0.24.0"]
-
-# URLs section for better PyPI presentation
-[project.urls]
-"Homepage"      = "https://github.com/Kugeleis/smw-reader"
-"Repository"    = "https://github.com/Kugeleis/smw-reader"
-"Bug Reports"   = "https://github.com/Kugeleis/smw-reader/issues"
-"Documentation" = "https://github.com/Kugeleis/smw-reader#readme"
-"Changelog"     = "https://github.com/Kugeleis/smw-reader/blob/main/CHANGELOG.md"
-
-# CLI script removed - this is a library package
-# [project.scripts]
-# smw-reader = "smw_reader:main"
-
-[build-system]
-requires      = ["uv_build>=0.9.2,<0.10.0"]
-build-backend = "uv_build"
-
-[dependency-groups]
 dev = [
     "duty>=1.6.3",
     "pytest>=8.4.2",
@@ -69,7 +51,24 @@ dev = [
     "sphinx-autodoc-typehints>=1.21.0",
     "sphinx-rtd-theme>=1.2.0",
     "sphinx-autobuild>=2024.10.3",
+    "generate-changelog>=0.11.0",
 ]
+
+# URLs section for better PyPI presentation
+[project.urls]
+"Homepage"      = "https://github.com/Kugeleis/smw-reader"
+"Repository"    = "https://github.com/Kugeleis/smw-reader"
+"Bug Reports"   = "https://github.com/Kugeleis/smw-reader/issues"
+"Documentation" = "https://github.com/Kugeleis/smw-reader#readme"
+"Changelog"     = "https://github.com/Kugeleis/smw-reader/blob/main/CHANGELOG.md"
+
+# CLI script removed - this is a library package
+# [project.scripts]
+# smw-reader = "smw_reader:main"
+
+[build-system]
+requires      = ["uv_build>=0.9.2,<0.10.0"]
+build-backend = "uv_build"
 
 # Ruff configuration
 [tool.ruff]
