@@ -4,7 +4,7 @@ import importlib.metadata
 from typing import Any
 
 from .client import SMWClient
-from .endpoints import AskEndpoint
+from .endpoints import AskEndpoint, QueryBuilder
 from .exceptions import (
     SMWAPIError,
     SMWAuthenticationError,
@@ -18,6 +18,7 @@ from .interfaces import APIEndpoint, HTTPClient
 __all__ = [
     "SMWClient",
     "AskEndpoint",
+    "QueryBuilder",
     "SMWAPIError",
     "SMWConnectionError",
     "SMWAuthenticationError",
