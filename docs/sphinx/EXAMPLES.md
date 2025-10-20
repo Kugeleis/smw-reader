@@ -92,3 +92,38 @@ query_string = builder.build()
 print(query_string)
 # Output: [[Category:Programming languages]][[Has paradigm::Object-oriented]]|?Has creator|?Has license
 ```
+
+### Using Comparison Operators
+
+The `QueryBuilder` supports various comparison operators for numerical and date properties.
+
+- Greater than: `>...`
+- Less than: `<...`
+- Greater than or equal to: `>=...`
+- Less than or equal to: `<=...`
+- Not equal to: `!...`
+
+Here is how to use these operators in your queries:
+
+```python
+from smw_reader.endpoints.query import QueryBuilder
+
+builder = QueryBuilder()
+
+# Find pages with a population greater than 1,000,000
+builder.add_conditions("Population:>1000000")
+print(builder.build())
+# Output: [[Population:>1000000]]
+
+# Find pages with a creation date on or after January 1, 2024
+builder = QueryBuilder()
+builder.add_conditions("Creation date:>=2024-01-01")
+print(builder.build())
+# Output: [[Creation date:>=2024-01-01]]
+
+# Combine multiple conditions, including a comparison
+builder = QueryBuilder()
+builder.add_conditions("Category:Cities", "Population:>=500000")
+print(builder.build())
+# Output: [[Category:Cities]][[Population:>=500000]]
+```
