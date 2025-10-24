@@ -83,6 +83,36 @@ builder.add_conditions(
 result = site.ask.query(builder, limit=20)
 ```
 
+### Advanced Queries with Dictionaries
+
+For more complex conditions, you can pass a dictionary to `add_conditions`. This is particularly useful for queries involving operators (like `>`, `<`, `!`) or when you need to be explicit about the property you are querying.
+
+The dictionary can have the following keys:
+
+-   `key`: The property or category name (e.g., "Creation date", "Category").
+-   `value`: The value to match.
+-   `operator`: (Optional) A comparison operator, such as `>`, `<`, `>=`, `<=`, or `!`.
+
+#### Example: Querying by Category and Date
+
+Here is how to query for pages in the "Software" category that were created before May 5th, 2024:
+
+```python
+from smw_reader import QueryBuilder
+
+builder = QueryBuilder()
+
+builder.add_conditions(
+    {"key": "Category", "value": "Software"},
+    {"key": "Creation date", "operator": "<", "value": "2024-05-05"}
+).add_printouts(
+    "Name",
+    "Version"
+)
+
+result = site.ask.query(builder)
+```
+
 ### Raw Query Strings
 
 For very complex queries or direct control, you can still use raw SMW query strings.
