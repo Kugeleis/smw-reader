@@ -2,6 +2,19 @@
 
 ## Unreleased (2025-10-25)
 
+## v0.7.6 (2025-10-25)
+
+### Fixes
+
+- Fix: documentation.
+    
+  add query builder examples
+### Other
+
+- Bump version: 0.7.5 → 0.7.6.
+    
+- Bump version: 0.7.4 → 0.7.5.
+    
 ## v0.7.5 (2025-10-25)
 
 ### Other
