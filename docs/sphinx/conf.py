@@ -1,8 +1,6 @@
 import os
 import sys
 
-from sphinx.application import Sphinx
-from sphinx.config import Config
 from sphinx_pyproject import SphinxConfig
 
 sys.path.insert(0, os.path.abspath("../../src"))
@@ -31,22 +29,10 @@ html_favicon = "_static/favicon.svg"
 # MyST settings
 myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence", "substitution"]
 
-
-# -- Event handler for config-inited ----------------------------------------
-def setup_myst_substitutions(app: Sphinx, config: Config) -> None:
-    """
-    Set up myst_substitutions after the configuration is initialized.
-    This ensures that the `version` and `release` values are correctly
-    populated by sphinx_pyproject before being used.
-    """
-    config.myst_substitutions = {
-        "version": config.version,
-        "release": config.release,
-    }
-
-
-def setup(app: Sphinx) -> None:
-    """
-    Connect the event handler to the `config-inited` event.
-    """
-    app.connect("config-inited", setup_myst_substitutions)
+# -- MyST substitutions ---------------------------------------------------
+# This needs to be at the end of the file, so that the `version` and `release`
+# variables are defined by sphinx_pyproject before they are used.
+myst_substitutions = {
+    "version": version,  # noqa: F821
+    "release": version,  # noqa: F821
+}
