@@ -11,14 +11,11 @@ vars:
 tasks:
   # Development setup
   install:
-    desc: Install project dependencies
-    cmds:
-      - "{{.UV}} sync"
-
-  install-dev:
-    desc: Install development dependencies
+    desc: Install project dependencies (including development extras)
     cmds:
       - "{{.UV}} sync --all-extras"
+
+
 
   init:
     desc: Initialize project for development

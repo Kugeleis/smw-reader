@@ -4,8 +4,9 @@ theme:
 repo_url: https://github.com/Kugeleis/smw-reader
 nav:
   - Home: index.md
-  - Changelog: CHANGELOG.md
+  - Examples: docs/sphinx/EXAMPLES.md
   - API Reference: reference.md
+  - Changelog: CHANGELOG.md
 
 plugins:
   - search

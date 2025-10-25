@@ -188,7 +188,7 @@ def docs_build(ctx) -> None:
 def docs_serve(ctx) -> None:
     """Serve documentation with sphinx-autobuild (live reload)."""
     ctx.run(
-        "sphinx-autobuild docs/sphinx docs/sphinx/_build --open-browser --port 8000",
+        "python -m sphinx_autobuild docs/sphinx docs/sphinx/_build --open-browser --port 8000",
         title="Serving Sphinx documentation with live reload",
     )
 

@@ -11,10 +11,10 @@ The `AskEndpoint` is used to execute semantic queries using SMW's query language
 You can execute a query by passing a raw SMW query string to the `query` method:
 
 ```python
-from smw_reader.client import Site
+from smw_reader import SMWClient
 
-# Initialize the site with the API endpoint URL
-site = Site("https://www.semantic-mediawiki.org/w/api.php")
+# Initialize the client with the API endpoint URL
+site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
 
 # Define a query to find all cities and retrieve their population
 query_string = "[[Category:Cities]]|?Population"
@@ -31,10 +31,9 @@ print(results)
 For more complex queries, the `QueryBuilder` provides a fluent interface for constructing queries programmatically.
 
 ```python
-from smw_reader.client import Site
-from smw_reader.endpoints.query import QueryBuilder
+from smw_reader import SMWClient, QueryBuilder
 
-site = Site("https://www.semantic-mediawiki.org/w/api.php")
+site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
 
 # Create a QueryBuilder instance
 builder = QueryBuilder()
@@ -53,12 +52,37 @@ print(results)
 The `query_category` method simplifies querying for pages within a specific category.
 
 ```python
-from smw_reader.client import Site
+from smw_reader import SMWClient
 
-site = Site("https://www.semantic-mediawiki.org/w/api.php")
+site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
 
 # Query for pages in the 'Cities' category and get their population
 results = site.ask.query_category("Cities", printouts=["Population"])
+
+print(results)
+```
+
+### Using a Filter List
+
+For better code organization, you can define your query conditions and printouts in a list and then unpack them into the `add_conditions` and `add_printouts` methods using the `*` operator. This is particularly useful when you have a dynamic set of filters.
+
+```python
+from smw_reader import SMWClient, QueryBuilder
+
+site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
+
+# Create a QueryBuilder instance
+builder = QueryBuilder()
+
+# Define conditions and printouts as lists
+conditions = ["Category:Cities", "Population:>=1000000"]
+printouts = ["Population", "Country"]
+
+# Unpack the lists into the builder methods
+builder.add_conditions(*conditions).add_printouts(*printouts)
+
+# Execute the query
+results = site.ask.query(builder)
 
 print(results)
 ```
@@ -72,7 +96,7 @@ The `QueryBuilder` is a powerful tool for building complex SMW queries in a stru
 Here's an example of how to build a query with multiple conditions and printouts:
 
 ```python
-from smw_reader.endpoints.query import QueryBuilder
+from smw_reader import QueryBuilder
 
 # Create a QueryBuilder instance
 builder = QueryBuilder()
@@ -93,6 +117,37 @@ print(query_string)
 # Output: [[Category:Programming languages]][[Has paradigm::Object-oriented]]|?Has creator|?Has license
 ```
 
+### Advanced Queries with Dictionaries
+
+For more complex conditions, you can pass a dictionary to `add_conditions`. This is particularly useful for queries involving operators (like `>`, `<`, `!`) or when you need to be explicit about the property you are querying.
+
+The dictionary can have the following keys:
+
+-   `key`: The property or category name (e.g., "Creation date", "Category").
+-   `value`: The value to match.
+-   `operator`: (Optional) A comparison operator, such as `>`, `<`, `>=`, `<=`, or `!`.
+
+#### Example: Querying by Category and Date
+
+Here is how to query for pages in the "Software" category that were created before May 5th, 2024:
+
+```python
+from smw_reader import SMWClient, QueryBuilder
+
+site = SMWClient("https://your-wiki.org/w/")
+builder = QueryBuilder()
+
+builder.add_conditions(
+    {"key": "Category", "value": "Software"},
+    {"key": "Creation date", "operator": "<", "value": "2024-05-05"}
+).add_printouts(
+    "Name",
+    "Version"
+)
+
+result = site.ask.query(builder)
+```
+
 ### Using Comparison Operators
 
 The `QueryBuilder` supports various comparison operators for numerical and date properties.
@@ -106,7 +161,7 @@ The `QueryBuilder` supports various comparison operators for numerical and date 
 Here is how to use these operators in your queries:
 
 ```python
-from smw_reader.endpoints.query import QueryBuilder
+from smw_reader import QueryBuilder
 
 builder = QueryBuilder()
 
