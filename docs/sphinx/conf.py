@@ -8,6 +8,10 @@ sys.path.insert(0, os.path.abspath("../../src"))
 
 config = SphinxConfig("../../pyproject.toml", globalns=globals())
 
+# -- Project information -----------------------------------------------------
+project = config.name
+version = config.version
+release = config.version
 
 # -- General configuration ---------------------------------------------------
 extensions = [
