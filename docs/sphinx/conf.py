@@ -27,8 +27,12 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.svg"
 
 # MyST settings
-myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence","substitution"]
+myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence", "substitution"]
+
+# -- MyST substitutions ---------------------------------------------------
+# This needs to be at the end of the file, so that the `version` and `release`
+# variables are defined by sphinx_pyproject before they are used.
 myst_substitutions = {
-    "version": version,
-    "release": release,
+    "version": version,  # noqa: F821
+    "release": version,  # noqa: F821
 }
