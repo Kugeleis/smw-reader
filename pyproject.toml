@@ -54,6 +54,8 @@ dev = [
     "sphinx-autodoc-typehints>=3.0.1",
     "sphinx-rtd-theme>=3.0.2",
     "sphinx-autobuild>=2024.10.3",
+    "sphinx-pyproject>=0.3.0", # Added for Sphinx configuration from pyproject.toml
+    "toml>=0.10.2",
     "generate-changelog>=0.16.0",
     "ipykernel>=7.0.1",
 ]

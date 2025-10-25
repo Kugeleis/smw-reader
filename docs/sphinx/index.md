@@ -2,6 +2,8 @@
 title: Home
 ---
 
+Version: {{ version }}
+
 ```{include} ../../README.md
 ```
 

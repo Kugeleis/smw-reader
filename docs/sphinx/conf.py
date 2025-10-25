@@ -1,16 +1,18 @@
 import os
 import sys
 
-# -- Path setup --------------------------------------------------------------
+from sphinx_pyproject import SphinxConfig
+
 sys.path.insert(0, os.path.abspath("../../src"))
 
-# -- Project information -----------------------------------------------------
-project = "smw-reader"
-author = "Kugeleis"
+
+config = SphinxConfig("../../pyproject.toml", globalns=globals())
+
 
 # -- General configuration ---------------------------------------------------
 extensions = [
     "myst_parser",
+    "sphinx_pyproject",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
@@ -25,4 +27,8 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.svg"
 
 # MyST settings
-myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence"]
+myst_enable_extensions = ["deflist", "html_admonition", "html_image", "colon_fence","substitution"]
+myst_substitutions = {
+    "version": version,
+    "release": release,
+}
