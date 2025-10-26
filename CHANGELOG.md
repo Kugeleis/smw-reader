@@ -2,6 +2,18 @@
 
 ## Unreleased (2025-10-26)
 
+## v0.7.8 (2025-10-26)
+
+### Fixes
+
+- Fix: Correct release workflow to build artifacts.
+
+### Other
+
+- Bump version: 0.7.7 → 0.7.8.
+
+- Bump version: 0.7.6 → 0.7.7.
+
 ## v0.7.7 (2025-10-26)
 
 ### Fixes
