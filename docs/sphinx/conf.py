@@ -33,12 +33,9 @@ html_favicon = "_static/favicon.svg"
 html_theme_options = {
     "navigation_depth": 4,
     "logo_only": False,
-    "display_version": False,  # Turn off the default version display
     "prev_next_buttons_location": "bottom",
     "style_external_links": False,
     "style_nav_header_background": "#2980B9",
-    # Add custom template for the navigation branding
-    "nav_branding": "nav-branding.html",
 }
 
 # MyST settings
