@@ -2,12 +2,45 @@
 
 ## Unreleased (2025-10-27)
 
+## v0.7.10 (2025-10-27)
+
+### Other
+
+- Bump version: 0.7.9 → 0.7.10.
+    
+- Feat: Add PyPI publish workflow.
+    
+  This commit adds a new GitHub Actions workflow to publish the package to PyPI. The workflow is triggered when a new tag is pushed to the repository. It uses trusted publishing to securely authenticate with PyPI.
+- Bump version: 0.7.8 → 0.7.9.
+    
 ## v0.7.9 (2025-10-27)
+
+### Other
+
+- Bump version: 0.7.8 → 0.7.9.
+    
+- Bump version: 0.7.7 → 0.7.8.
+    
+### Updates
+
+- Update the installation instructions in the README.md to use 'uv add' instead of 'uv pip install'. This reflects the preferred modern usage of the uv package manager.
+    
+## v0.7.8 (2025-10-26)
 
 ### Fixes
 
 - Fix: Correct release workflow to build artifacts.
     
+### Other
+
+- Bump version: 0.7.7 → 0.7.8.
+    
+- Bump version: 0.7.6 → 0.7.7.
+    
+## v0.7.7 (2025-10-26)
+
+### Fixes
+
 - Fix: show version below title in docs.
     
 - Fix(docs): correctly display project name and version in Sphinx docs.
@@ -34,10 +67,6 @@
   This change defers the population of `myst_substitutions` until after `sphinx-pyproject` has updated the configuration by connecting a function to the `config-inited` event.
 ### Other
 
-- Bump version: 0.7.8 → 0.7.9.
-    
-- Bump version: 0.7.7 → 0.7.8.
-    
 - Bump version: 0.7.6 → 0.7.7.
     
 - Chore: add version to docs.
@@ -46,8 +75,6 @@
     
 ### Updates
 
-- Update the installation instructions in the README.md to use 'uv add' instead of 'uv pip install'. This reflects the preferred modern usage of the uv package manager.
-    
 - Refactor: Dynamically set project name in Sphinx conf.py.
     
   This commit refactors the Sphinx configuration to dynamically set the project name from `pyproject.toml` using `sphinx-pyproject`. This removes the hardcoded project name and ensures that the documentation stays in sync with the project's metadata.
