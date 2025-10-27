@@ -2,6 +2,19 @@
 
 ## Unreleased (2025-10-27)
 
+## v0.7.11 (2025-10-27)
+
+### Fixes
+
+- Fix(workflows): consolidate release and publish workflows.
+    
+  Consolidate the release and publish workflows into a single workflow to prevent conflicts and ensure that the publish step runs reliably after a tag is pushed.
+### Other
+
+- Bump version: 0.7.10 → 0.7.11.
+    
+- Bump version: 0.7.9 → 0.7.10.
+    
 ## v0.7.10 (2025-10-27)
 
 ### Other
