@@ -33,6 +33,7 @@ class AskEndpoint(APIEndpoint):
                 - offset: Offset for pagination
                 - sort: Sort field
                 - order: Sort order ('asc' or 'desc')
+                - p_...: Special parameters for 'Special:Ask' (e.g., p_limit=100)
 
         Returns:
             The query results as a dictionary.
@@ -46,7 +47,13 @@ class AskEndpoint(APIEndpoint):
 
         request_params = {"query": query.strip()}
         for param_name, param_value in params.items():
-            if param_name != "query" and param_value is not None:
+            if param_name == "query" or param_value is None:
+                continue
+
+            if param_name.startswith("p_"):
+                key = param_name[2:]
+                request_params[f"p[{key}]"] = param_value
+            else:
                 request_params[param_name] = param_value
 
         return self._client.make_request("ask", request_params)
