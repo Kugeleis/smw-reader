@@ -1,8 +1,27 @@
 # Changelog
 
-## Unreleased (2025-10-27)
+## Unreleased (2025-11-02)
 
+## v0.8.0 (2025-11-02)
+
+### Other
+
+- Bump version: 0.7.11 → 0.8.0.
+    
+- Feat(ask): Add support for special 'p' parameters.
+    
+  This commit introduces a feature that allows passing special 'ask' parameters, like `p[limit]`, by using keyword arguments prefixed with `p_`. The `AskEndpoint` now correctly formats these arguments into the `p[key]` format required by the Semantic MediaWiki API.
+
+  A test case has been added to verify this functionality.
+- Bump version: 0.7.10 → 0.7.11.
+    
 ## v0.7.11 (2025-10-27)
+
+### Other
+
+- Bump version: 0.7.10 → 0.7.11.
+    
+## v0.0.1 (2025-10-27)
 
 ### Fixes
 
@@ -11,8 +30,6 @@
   Consolidate the release and publish workflows into a single workflow to prevent conflicts and ensure that the publish step runs reliably after a tag is pushed.
 ### Other
 
-- Bump version: 0.7.10 → 0.7.11.
-    
 - Bump version: 0.7.9 → 0.7.10.
     
 ## v0.7.10 (2025-10-27)
