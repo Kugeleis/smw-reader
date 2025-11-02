@@ -2,6 +2,26 @@
 
 ## Unreleased (2025-11-02)
 
+## v0.8.2 (2025-11-02)
+
+### Fixes
+
+- Fix(api): Correctly format SMW API parameters.
+    
+  - Modifies the `AskEndpoint.execute` method to correctly append
+    parameters like `limit`, `sort`, and `offset` to the main query string,
+    separated by pipes (`|`), as expected by the Semantic MediaWiki API.
+  - Removes the incorrect and non-functional `p_` prefix convention for
+    special parameters.
+  - Updates tests to verify the new, correct query string format.
+  - Updates `EXAMPLES.md` to remove the incorrect `p_` prefix
+    documentation and provide accurate examples for passing parameters.
+### Other
+
+- Bump version: 0.8.1 → 0.8.2.
+    
+- Bump version: 0.8.0 → 0.8.1.
+    
 ## v0.8.1 (2025-11-02)
 
 ### Other
