@@ -2,6 +2,17 @@
 
 ## Unreleased (2025-11-02)
 
+## v0.8.1 (2025-11-02)
+
+### Other
+
+- Bump version: 0.8.0 → 0.8.1.
+    
+- Docs: add example for p_ parameter.
+    
+  Adds an example to EXAMPLES.md to demonstrate how to use p_ prefixed keyword arguments to pass special parameters to the 'Special:Ask' API.
+- Bump version: 0.7.11 → 0.8.0.
+    
 ## v0.8.0 (2025-11-02)
 
 ### Other
