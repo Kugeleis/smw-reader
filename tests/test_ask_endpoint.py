@@ -26,7 +26,9 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.execute(query="[[Category:Test]]")
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_execute_empty_query_raises_error(self, ask_endpoint):
         """Test that empty query raises validation error."""
@@ -38,7 +40,9 @@ class TestAskEndpoint:
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.query("[[Category:Test]]")
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_query_with_parameters(self, ask_endpoint):
         """Test the query method with additional parameters."""
@@ -46,36 +50,43 @@ class TestAskEndpoint:
         result = ask_endpoint.query("[[Category:Test]]", limit=10, sort="Name")
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]", "limit": 10, "sort": "Name"}
+            "ask", {"query": "[[Category:Test]]|limit=10|sort=Name"}
         )
 
     def test_query_with_query_builder(self, ask_endpoint):
         """Test the query method with a QueryBuilder instance."""
         ask_endpoint._client.make_request.return_value = {}
-        query = QueryBuilder().add_conditions({"key": "Category", "value": "Test"})
+        query = QueryBuilder().add_conditions("Category:Test")
         result = ask_endpoint.query(query)
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_query_category(self, ask_endpoint):
         """Test the query_category method."""
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.query_category("Test")
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]"}
+        )
 
     def test_query_category_with_printouts(self, ask_endpoint):
         """Test the query_category method with printouts."""
         ask_endpoint._client.make_request.return_value = {}
         result = ask_endpoint.query_category("Test", printouts=["Name", "?Age"])
         assert result == {}
-        ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]|?Name|?Age"})
+        ask_endpoint._client.make_request.assert_called_once_with(
+            "ask", {"query": "[[Category:Test]]|?Name|?Age"}
+        )
 
-    def test_query_with_special_parameters(self, ask_endpoint):
-        """Test the query method with special 'p' parameters."""
+    def test_query_with_or_condition(self, ask_endpoint):
+        """Test a query with an 'OR' condition to ensure it's not broken."""
         ask_endpoint._client.make_request.return_value = {}
-        result = ask_endpoint.query("[[Category:Test]]", p_limit=100, p_sort="Name")
+        query = "[[Category:A||B]]"
+        result = ask_endpoint.query(query, limit=5)
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with(
-            "ask", {"query": "[[Category:Test]]", "p[limit]": 100, "p[sort]": "Name"}
+            "ask", {"query": "[[Category:A||B]]|limit=5"}
         )

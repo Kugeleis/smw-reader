@@ -41,21 +41,16 @@ class AskEndpoint(APIEndpoint):
         Raises:
             SMWValidationError: If the query is invalid.
         """
-        query = params.get("query")
+        query = params.pop("query", None)
         if not query or not isinstance(query, str):
             raise SMWValidationError("Query parameter must be a non-empty string")
 
-        request_params = {"query": query.strip()}
-        for param_name, param_value in params.items():
-            if param_name == "query" or param_value is None:
-                continue
+        query_parts = [query.strip()]
+        for key, value in params.items():
+            if value is not None:
+                query_parts.append(f"|{key}={value}")
 
-            if param_name.startswith("p_"):
-                key = param_name[2:]
-                request_params[f"p[{key}]"] = param_value
-            else:
-                request_params[param_name] = param_value
-
+        request_params = {"query": "".join(query_parts)}
         return self._client.make_request("ask", request_params)
 
     def query(self, query: str | QueryBuilder, **params: Any) -> dict[str, Any]:

@@ -182,9 +182,11 @@ builder.add_conditions("Category:Cities", "Population:>=500000")
 print(builder.build())
 # Output: [[Category:Cities]][[Population:>=500000]]
 
-### Passing Special Parameters
+### Passing Parameters
 
-You can pass special parameters to the 'Special:Ask' API by using keyword arguments prefixed with `p_` in the `query` method. For example, to set the `limit` for a query, you would use `p_limit=100`.
+You can pass parameters like `limit`, `sort`, and `offset` directly to the `query` and `query_category` methods as keyword arguments.
+
+#### With `query`
 
 ```python
 from smw_reader import SMWClient
@@ -192,11 +194,29 @@ from smw_reader import SMWClient
 site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
 
 # Execute a query with a limit of 5
-results = site.ask.query("[[Category:Cities]]", p_limit=5)
+results = site.ask.query("[[Category:Cities]]", limit=5)
 
-# The 'p_limit' parameter will be passed to the API as 'limit=5'
 print(results)
 ```
 
-This is a powerful feature that allows you to control the behavior of the 'Special:Ask' API directly from the `smw-reader` library.
+#### With `query_category`
+
+You can also pass parameters to the `query_category` method:
+
+```python
+from smw_reader import SMWClient
+
+site = SMWClient("https://www.semantic-mediawiki.org/w/api.php")
+
+# Query the 'Cities' category with a limit of 3 and sort by population
+results = site.ask.query_category(
+    "Cities",
+    printouts=["Population"],
+    limit=3,
+    sort="Population",
+    order="desc"
+)
+
+print(results)
+```
 ```
