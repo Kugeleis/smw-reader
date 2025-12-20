@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -10,6 +11,7 @@ config = SphinxConfig("../../pyproject.toml", globalns=globals())
 
 # -- Project information -----------------------------------------------------
 project = config.name
+copyright = f"{datetime.date.today().year}, Kugeleis"
 version = config.version
 release = config.version
 
@@ -29,6 +31,14 @@ exclude_patterns = ["_build", "**.ipynb_checkpoints"]
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 html_favicon = "_static/favicon.svg"
+
+html_context = {
+    "display_github": True,
+    "github_user": "Kugeleis",
+    "github_repo": "smw-reader",
+    "github_version": "main",
+    "conf_py_path": "/docs/sphinx/",
+}
 
 html_theme_options = {
     "navigation_depth": 4,

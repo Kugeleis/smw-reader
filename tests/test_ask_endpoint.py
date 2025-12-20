@@ -70,4 +70,3 @@ class TestAskEndpoint:
         result = ask_endpoint.query_category("Test", printouts=["Name", "?Age"])
         assert result == {}
         ask_endpoint._client.make_request.assert_called_once_with("ask", {"query": "[[Category:Test]]|?Name|?Age"})
-
