@@ -2,8 +2,12 @@
 
 ## Unreleased (2025-12-20)
 
+## v0.8.5 (2025-12-20)
+
 ### Other
 
+- Bump version: 0.8.4 → 0.8.5.
+    
 - Chore: add duty as dev.
     
 - Chore: adjust tasks.
@@ -18,6 +22,10 @@
   - Updates the copyright notice in the documentation footer to include the current year and the author's name.
   - Automates changelog generation for both local and CI/CD documentation builds, ensuring the changelog is always up-to-date.
   - Updates the CI/CD workflow for documentation to use the correct build task.
+### Updates
+
+- Refactor: Align tasks with duties and fix version bumping.
+    
 ## v0.8.3 (2025-12-20)
 
 ## v0.8.4 (2025-12-17)

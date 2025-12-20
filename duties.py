@@ -250,4 +250,4 @@ def version(ctx, part: str) -> None:
     if part not in ["patch", "minor", "major"]:
         print(f"Invalid part '{part}'. Must be one of patch, minor, major.")
         return
-    ctx.run(f"uv run bump-my-version bump {part}", title=f"Bumping {part} version")
+    ctx.run(f"uv run bump-my-version bump {part} --allow-dirty", title=f"Bumping {part} version")
