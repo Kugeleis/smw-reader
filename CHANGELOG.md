@@ -2,6 +2,12 @@
 
 ## Unreleased (2025-12-20)
 
+### Fixes
+
+- Fix: task syntax.
+    
+- Fix: task sequence.
+    
 ### Other
 
 - Bump version: 0.8.4 → 0.8.5.
