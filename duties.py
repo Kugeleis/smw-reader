@@ -181,6 +181,7 @@ def pre_commit_install(ctx) -> None:
 @duty
 def docs_build(ctx) -> None:
     """Build documentation with Sphinx (MyST)."""
+    changelog(ctx)
     ctx.run("sphinx-build -b html docs/sphinx docs/sphinx/_build", title="Building Sphinx documentation")
 
 

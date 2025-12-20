@@ -22,8 +22,7 @@ jobs:
         run: uv sync --all-extras
 
       - name: Build docs (Sphinx)
-        run: |
-          uv run sphinx-build -b html docs/sphinx docs/sphinx/_build
+        run: uv run python -m duty docs_build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
