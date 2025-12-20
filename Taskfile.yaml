@@ -177,15 +177,15 @@ tasks:
   version-patch:
     desc: Bump patch version (0.1.0 -> 0.1.1)
     cmds:
-      - "{{.PYTHON}} -m duty version --part patch"
+      - "{{.PYTHON}} -m duty version patch"
 
   version-minor:
     desc: Bump minor version (0.1.0 -> 0.2.0)
     cmds:
-      - "{{.PYTHON}} -m duty version --part minor"
+      - "{{.PYTHON}} -m duty version minor"
 
   version-major:
     desc: Bump major version (0.1.0 -> 1.0.0)
     cmds:
-      - "{{.PYTHON}} -m duty version --part major"
+      - "{{.PYTHON}} -m duty version major"
 

@@ -1,7 +1,47 @@
 # Changelog
 
-## Unreleased (2025-11-02)
+## Unreleased (2025-12-20)
 
+### Other
+
+- Chore: add duty as dev.
+    
+- Chore: adjust tasks.
+    
+- Bump version: 0.8.3 → 0.8.4.
+    
+- Docs: Comprehensive Documentation Improvements.
+    
+  This PR includes a series of improvements to the Sphinx documentation and its build process:
+
+  - Adds a "View on GitHub" link to the documentation, making it easier for users to navigate to the source code repository.
+  - Updates the copyright notice in the documentation footer to include the current year and the author's name.
+  - Automates changelog generation for both local and CI/CD documentation builds, ensuring the changelog is always up-to-date.
+  - Updates the CI/CD workflow for documentation to use the correct build task.
+## v0.8.3 (2025-12-20)
+
+## v0.8.4 (2025-12-17)
+
+### Other
+
+- Bump version: 0.8.3 → 0.8.4.
+    
+- Docs: Comprehensive Documentation Improvements.
+    
+  This PR includes a series of improvements to the Sphinx documentation and its build process:
+
+  - Adds a "View on GitHub" link to the documentation, making it easier for users to navigate to the source code repository.
+  - Updates the copyright notice in the documentation footer to include the current year and the author's name.
+  - Automates changelog generation for both local and CI/CD documentation builds, ensuring the changelog is always up-to-date.
+  - Updates the CI/CD workflow for documentation to use the correct build task.
+- Bump version: 0.8.2 → 0.8.3.
+    
+- Docs: Add repository link and update copyright in Sphinx docs.
+    
+  - Adds a "Edit on GitHub" link to each page in the Sphinx documentation, pointing to the corresponding source file in the repository.
+  - Updates the copyright notice in the documentation footer to include the current year and the author's name.
+- Bump version: 0.8.1 → 0.8.2.
+    
 ## v0.8.2 (2025-11-02)
 
 ### Fixes

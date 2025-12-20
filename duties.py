@@ -241,7 +241,7 @@ def example(ctx) -> None:
 
 
 @duty(pre=[changelog])
-def version(ctx, part: str = "patch") -> None:
+def version(ctx, part: str) -> None:
     """Bump project version.
 
     Args:
