@@ -2,12 +2,18 @@
 
 ## Unreleased (2025-12-20)
 
+## v0.8.7 (2025-12-20)
+
 ### Fixes
 
 - Fix: update Sphinx build command in docs workflow.
     
 ### Other
 
+- Bump version: 0.8.6 → 0.8.7.
+    
+- Chore: update changelog.
+    
 - Bump version: 0.8.5 → 0.8.6.
     
 ## v0.8.6 (2025-12-20)
