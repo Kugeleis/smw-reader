@@ -150,3 +150,8 @@ values = ["alpha", "beta", "rc"]
 filename = "pyproject.toml"
 search   = "version = \"{current_version}\""
 replace  = "version = \"{new_version}\""
+
+[dependency-groups]
+dev = [
+    "duty>=1.6.3",
+]
