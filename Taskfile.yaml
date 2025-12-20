@@ -11,9 +11,14 @@ vars:
 tasks:
   # Development setup
   install:
+    desc: Install project dependencies
+    cmds:
+      - "{{.PYTHON}} -m duty install"
+
+  install-dev:
     desc: Install project dependencies (including development extras)
     cmds:
-      - "{{.UV}} sync --all-extras"
+      - "{{.PYTHON}} -m duty install_dev"
 
 
 
@@ -53,7 +58,7 @@ tasks:
   test-cov:
     desc: Run tests with coverage
     cmds:
-      - "uv run pytest --cov=src/smw_reader --cov-report=html --cov-report=term-missing --cov-report=term -s"
+      - "{{.PYTHON}} -m duty test_cov"
 
   test-watch:
     desc: Run tests in watch mode
@@ -172,14 +177,15 @@ tasks:
   version-patch:
     desc: Bump patch version (0.1.0 -> 0.1.1)
     cmds:
-      - uv run bump-my-version bump patch
+      - "{{.PYTHON}} -m duty version --part patch"
 
   version-minor:
     desc: Bump minor version (0.1.0 -> 0.2.0)
     cmds:
-      - uv run bump-my-version bump minor
+      - "{{.PYTHON}} -m duty version --part minor"
 
   version-major:
     desc: Bump major version (0.1.0 -> 1.0.0)
     cmds:
-      - uv run bump-my-version bump major
+      - "{{.PYTHON}} -m duty version --part major"
+

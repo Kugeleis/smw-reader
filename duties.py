@@ -232,3 +232,22 @@ def init_project(ctx) -> None:
 def changelog(ctx) -> None:
     """Generate the changelog."""
     ctx.run("generate-changelog", title="Generating changelog")
+
+
+@duty
+def example(ctx) -> None:
+    """Run the example script."""
+    ctx.run("python example.py", title="Running example")
+
+
+@duty(pre=[changelog])
+def version(ctx, part: str = "patch") -> None:
+    """Bump project version.
+
+    Args:
+        part: The part of the version to bump (patch, minor, major).
+    """
+    if part not in ["patch", "minor", "major"]:
+        print(f"Invalid part '{part}'. Must be one of patch, minor, major.")
+        return
+    ctx.run(f"uv run bump-my-version bump {part}", title=f"Bumping {part} version")
