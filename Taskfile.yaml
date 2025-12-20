@@ -119,11 +119,6 @@ tasks:
     cmds:
       - "{{.PYTHON}} -m duty pre_commit_install"
 
-  # Examples and profiling
-  example:
-    desc: Run the example script
-    cmds:
-      - "{{.PYTHON}} -m duty example"
 
   profile:
     desc: Profile the code
@@ -177,14 +172,14 @@ tasks:
   release-patch:
     desc: "Release mit Patch-Bump"
     cmds:
-      - uv run duty release --part patch
+      - uv run duty release part=patch
 
   release-minor:
     desc: "Release mit Minor-Bump"
     cmds:
-      - uv run duty release --part minor
+      - uv run duty release part=minor
 
   release-major:
     desc: "Release mit Major-Bump"
     cmds:
-      - uv run duty release --part major
+      - uv run duty release part=major
