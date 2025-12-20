@@ -2,6 +2,8 @@
 
 ## Unreleased (2025-12-20)
 
+## v0.8.6 (2025-12-20)
+
 ### Fixes
 
 - Fix: task syntax.
@@ -10,6 +12,10 @@
     
 ### Other
 
+- Bump version: 0.8.5 → 0.8.6.
+    
+- Chore: update changelog.
+    
 - Bump version: 0.8.4 → 0.8.5.
     
 ## v0.8.5 (2025-12-20)
