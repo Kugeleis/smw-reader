@@ -235,19 +235,16 @@ def changelog(ctx) -> None:
 
 
 @duty
-def example(ctx) -> None:
-    """Run the example script."""
-    ctx.run("python example.py", title="Running example")
+def release(ctx, part="patch"):
+    # 1. Sicherstellen, dass Tree sauber ist
+    ctx.run("git diff --quiet && git diff --cached --quiet", title="Check clean git tree")
 
+    # 2. Changelog erzeugen
+    ctx.run("uv run duty changelog", title="Update changelog")
 
-@duty(pre=[changelog])
-def version(ctx, part: str) -> None:
-    """Bump project version.
+    # 3. Changelog committen
+    ctx.run("git add CHANGELOG.md", title="Stage changelog")
+    ctx.run('git commit -m "chore: update changelog"', title="Commit changelog")
 
-    Args:
-        part: The part of the version to bump (patch, minor, major).
-    """
-    if part not in ["patch", "minor", "major"]:
-        print(f"Invalid part '{part}'. Must be one of patch, minor, major.")
-        return
-    ctx.run(f"uv run bump-my-version bump {part} --allow-dirty", title=f"Bumping {part} version")
+    # 4. Version bumpen
+    ctx.run(f"uv run bump-my-version bump {part}", title=f"Bump {part} version")

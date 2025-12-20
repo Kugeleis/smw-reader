@@ -2,6 +2,10 @@
 
 ## Unreleased (2025-12-20)
 
+### Other
+
+- Bump version: 0.8.4 → 0.8.5.
+    
 ## v0.8.5 (2025-12-20)
 
 ### Other

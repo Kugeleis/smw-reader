@@ -174,18 +174,17 @@ tasks:
       - echo "Release checks passed!"
 
   # Version management with bump-my-version
-  version-patch:
-    desc: Bump patch version (0.1.0 -> 0.1.1)
+  release-patch:
+    desc: "Release mit Patch-Bump"
     cmds:
-      - "{{.PYTHON}} -m duty version patch"
+      - uv run duty release --part patch
 
-  version-minor:
-    desc: Bump minor version (0.1.0 -> 0.2.0)
+  release-minor:
+    desc: "Release mit Minor-Bump"
     cmds:
-      - "{{.PYTHON}} -m duty version minor"
+      - uv run duty release --part minor
 
-  version-major:
-    desc: Bump major version (0.1.0 -> 1.0.0)
+  release-major:
+    desc: "Release mit Major-Bump"
     cmds:
-      - "{{.PYTHON}} -m duty version major"
-
+      - uv run duty release --part major
